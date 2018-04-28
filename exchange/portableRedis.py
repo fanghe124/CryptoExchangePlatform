@@ -98,6 +98,7 @@ class Portable:
             self.c.execute(query)
             self.conn.commit()
             self.connect(self.c, self.table)
+            print("All data will be deleted")
             return True
         except Exception as e:
             print(e)
