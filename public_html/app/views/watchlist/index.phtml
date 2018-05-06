@@ -1,0 +1,122 @@
+<div class="container">
+    <h5 style="    margin: 42px 0;
+    text-align: center;
+    font-size: 44px;
+    text-transform: UPPERCASE;
+    font-weight: 600;
+    color: #828282;
+    margin-bottom: 0px;"><?php _lang('watchlist')?></h5>
+    <div style="margin-bottom: 15px;text-align: center;margin-top: 24px;">
+        <?php if(subscription_active(null, 'watchlist')):?>
+            <a href="" data-toggle="modal" data-target="#watchlistModal" class="btn btn-sm btn-primary" style="margin: 20px 0"><?php _lang('add-coin')?></a>
+        <?php endif?>
+    </div>
+</div>
+<div class="pane">
+    <?php if(subscription_active(null, 'watchlist')): $coins = get_watchlists()?>
+            <?php if(empty($coins)):?>
+                <div class="empty-content">
+                    <i class="icons icon-bulb"></i>
+                    <p><?php _lang('watchlist-empty-note')?></p>
+                    <a data-toggle="modal" data-target="#watchlistModal"  href=""><?php _lang('add-coin')?></a>
+                </div>
+            <?php else:?>
+                <div class="row">
+                    <?php foreach($coins as $coin):$coin = get_coin($coin)?>
+                        <div style="    margin-bottom: 20px;" class="col-md-4" id="watchlist-<?php echo $coin['symbol']?>">
+                            <div  data-no-flash="true" data-price="<?php echo format_coin_price($coin['price'],false,false)?>" class=" coin-detail-container <?php echo $coin['symbol']?>-detail-container" id="" data-symbol="<?php echo $coin['symbol']?>">
+                                <div class="pane bg-white coin-grid">
+                                    <div class="head clearfix">
+                                        <div class="float-left">
+                                            <img class="coin-list-logo" style="width: 35px;height: 35px;display: inline-block;margin-right: 10px" src="<?php echo get_coin_logo($coin)?>"/>
+                                            <div style="display: inline-block;font-size: 15px;">
+                                                <a class="ajax-link" href="<?php echo url('coin/'.strtolower($coin['symbol']))?>"><?php echo $coin['name']?></a>
+
+                                                <span style="color: grey">[<?php echo $coin['symbol']?>]</span>
+                                            </div>
+                                        </div>
+                                        <div class="float-right">
+                                            <div style="text-align: right;">
+                                                <?php echo getCurrencySymbol()?>
+                                                <span class="price"><?php if(format_coin_price($coin['price'],false,false) >= 1){
+
+echo number_format(format_coin_price($coin['price'],false,false),2,".",",");
+
+} else if (format_coin_price($coin['price'],false,false) > 0 && format_coin_price($coin['price'],false,false) < 1){
+
+echo number_format(format_coin_price($coin['price'],false,false),6,".",",");
+
+} else {
+	
+	echo number_format(format_coin_price($coin['price'],false,false),2,".",",");
+
+}	?>
+                                            </div>
+                                            <div style="font-size: 11px;color: grey">
+                                               24H (
+                                                <span style="color: <?php if($coin['change_24h'] > 0){ echo '#02bd23'; } else { echo '#bd0202'; } ?>;font-weight: 600;" class="change <?php echo (($coin['change_24h'] > 0)) ? 'change-up' : 'change-down'?>">
+                                                    <i class=" <?php echo (($coin['change_24h'] > 0)) ? 'icons icon-arrow-up-circle' : 'icons icon-arrow-down-circle'?>"></i>
+                                                    <?php echo $coin['change_24h']?>%</span>)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="body">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <span class="sparkline-charts" data-width="100%" values="<?php echo get_coin_line_data($coin['symbol'])?>"></span>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <a onclick="return remove_watchlist('<?php echo $coin['symbol']?>')" href="" class="btn btn-sm btn-secondary"><i class="icons icon-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    <?php endforeach?>
+                </div>
+            <?php endif?>
+    <?php else:?>
+        <?php echo view('main::user/access')?>
+    <?php endif?>
+</div>
+
+
+<?php if(config('top_ads', false)):?>
+<div class="container" style="
+    margin-bottom: 50px;    margin-top: 10px;
+">
+            <div class="" style="padding: 10px 0; ">
+                <?php echo config('top_ads', '')?>
+            </div>
+			</div>
+        <?php endif?>
+
+<div class="modal fade" id="watchlistModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><?php _lang('add-coin')?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <select id="watchlist-icon" class="form-control select2 from" style="width: 100% !important;">
+                    <?php foreach(get_all_coins() as $coin):?>
+                        <option <?php echo ($coin['symbol'] == 'BTC') ? 'selected' : null?> value="<?php echo $coin['symbol']?>"><?php echo $coin['name']?> [<?php echo $coin['symbol']?>]</option>
+                    <?php endforeach?>
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button onclick="return add_watchlist('',true)" type="button" class="btn btn-sm btn-primary"><?php _lang('save')?></button>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="container">
+    <h5 style="padding: 20px 0"><?php _lang('admin-panel')?></h5>
+</div>
+<div class="pane">
+    <div class="container">
+        <?php if(config('announcement')):?>
+            <div style="margin: 5px 0" class="alert alert-<?php echo config('announcement-type', 'info')?>"><?php echo config('announcement')?> </div>
+        <?php endif?>
+        <div class="row " style="margin: 20px 0">
+
+            <div class="col-md-2 left  box">
+                <div class="menu">
+                    <ul class="nav flex-column">
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == '') ? ' active' : null?>" href="<?php echo url('admincp')?>"><?php _lang('dashboard')?></a></li>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'settings') ? ' active' : null?>" href="<?php echo url('admincp/settings')?>"><?php _lang('settings')?></a></li>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'appearance') ? ' active' : null?>" href="<?php echo url('admincp/appearance')?>"><?php _lang('appearance')?></a></li>
+                        <?php runHook('admin.menu')?>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'module') ? ' active' : null?>" href="<?php echo url('admincp/module')?>"><?php _lang('modules-manager')?></a></li>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'coins') ? ' active' : null?>" href="<?php echo url('admincp/coins')?>"><?php _lang('coins-manager')?></a></li>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'users') ? ' active' : null?>" href="<?php echo url('admincp/users')?>"><?php _lang('users-management')?></a></li>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'currencies') ? ' active' : null?>" href="<?php echo url('admincp/currencies')?>"><?php _lang('currency-manager')?></a></li>
+                        <?php runHook('admin.menu.middle')?>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'pages') ? ' active' : null?>" href="<?php echo url('admincp/pages')?>"><?php _lang('pages')?></a></li>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'menu') ? ' active' : null?>" href="<?php echo url('admincp/menu')?>"><?php _lang('menu-manager')?></a></li>
+                        <li><a class="nav-link ajax-link <?php echo (segment(1) == 'adverts') ? ' active' : null?>" href="<?php echo url('admincp/adverts')?>"><?php _lang('advertisement')?></a></li>
+                        <?php runHook('admin.menu.end')?>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-md-10 right">
+                <div class="pane bg-white" style="margin: 0" >
+                    <?php echo $content?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

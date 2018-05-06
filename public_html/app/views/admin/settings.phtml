@@ -1,0 +1,597 @@
+<h5 class="titl">
+    <?php _lang('settings')?>
+    <span class="float-right">
+       <!-- <a class=" btn btn-sm btn-secondary" href="<?php echo url('download/coins')?>"><?php _lang('download-new-coins')?></a>-->
+    <a class=" btn btn-sm btn-danger" href="<?php echo url('admincp/system/update')?>"><?php _lang('update-system')?></a>
+    </span>
+</h5>
+
+<ul class="nav nav-tabs nav-tabs-res" role="tablist" style="margin-bottom: 20px">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#setting-general" role="tab"><?php _lang('general')?></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#setting-registration" role="tab"><?php _lang('registration')?></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#setting-limit" role="tab"><?php _lang('limit')?></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#setting-api" role="tab"><?php _lang('API')?></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#setting-emails" role="tab"><?php _lang('emails')?></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#setting-payment" role="tab"><?php _lang('payment')?></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#setting-subscription" role="tab"><?php _lang('subscription')?></a>
+    </li>
+    <li class="nav-item " style="display: none">
+        <a class="nav-link" data-toggle="tab" href="#setting-announcement" role="tab"><?php _lang('announcement')?></a>
+    </li>
+</ul>
+
+<?php if($message):?>
+    <div class="alert alert-success"><?php echo $message?></div>
+<?php endif?>
+<form enctype="multipart/form-data" action="" method="post">
+    <!-- Tab panes -->
+    <div class="tab-content">
+
+    <div class="tab-pane fade  " id="setting-payment" role="tabpanel">
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('Enable Stripe')?></label>
+            <div class="col-9">
+               <select name="val[enable-stripe]">
+                   <option value="0" <?php echo (!config('enable-stripe', false)) ? 'selected' : null?>><?php _lang('no')?></option>
+                   <option value="1" <?php echo (config('enable-stripe', false)) ? 'selected' : null?>><?php _lang('yes')?></option>
+               </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('Stripe Publishable Key')?></label>
+            <div class="col-9">
+                <input class="form-control" name="val[stripe-public-key]" type="text" value="<?php echo config('stripe-public-key', '')?>" >
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('Stripe Secret Key')?></label>
+            <div class="col-9">
+                <input class="form-control" name="val[stripe-secret-key]" type="text" value="<?php echo config('stripe-secret-key', '')?>" >
+            </div>
+        </div>
+
+        <hr/>
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('Enable Paypal')?></label>
+            <div class="col-9">
+                <select name="val[enable-paypal]">
+                    <option value="0" <?php echo (!config('enable-paypal', false)) ? 'selected' : null?>><?php _lang('no')?></option>
+                    <option value="1" <?php echo (config('enable-paypal', false)) ? 'selected' : null?>><?php _lang('yes')?></option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('Enable Paypal Test Mode')?></label>
+            <div class="col-9">
+                <select name="val[paypal-test-mode]">
+                    <option value="0" <?php echo (!config('paypal-test-mode', false)) ? 'selected' : null?>><?php _lang('no')?></option>
+                    <option value="1" <?php echo (config('paypal-test-mode', false)) ? 'selected' : null?>><?php _lang('yes')?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('Paypal Username')?></label>
+            <div class="col-9">
+                <input class="form-control" name="val[paypal-username]" type="text" value="<?php echo config('paypal-username', '')?>" >
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('Paypal Password')?></label>
+            <div class="col-9">
+                <input class="form-control" name="val[paypal-password]" type="password" value="<?php echo config('paypal-password', '')?>" >
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('Paypal Signature')?></label>
+            <div class="col-9">
+                <input class="form-control" name="val[paypal-signature]" type="text" value="<?php echo config('paypal-signature', '')?>" >
+            </div>
+        </div>
+
+    </div>
+
+    <div class="tab-pane fade  " id="setting-subscription" role="tabpanel">
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('enable-subscription')?></label>
+            <div class="col-9">
+                <select name="val[enable-subscription]">
+                    <option value="0" <?php echo (!config('enable-subscription', false)) ? 'selected' : null?>><?php _lang('no')?></option>
+                    <option value="1" <?php echo (config('enable-subscription', false)) ? 'selected' : null?>><?php _lang('yes')?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('subscription-currency')?></label>
+            <div class="col-9">
+                <select name="val[subscription-currency]">
+
+                    <?php foreach(getAllCurrencies() as $currency):?>
+                        <option value="<?php echo $currency['code']?>" <?php echo (!config('subscription-currency', 'USD') == $currency['code']) ? 'selected' : null?>><?php echo $currency['code']?></option>
+
+                    <?php endforeach?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('enable-free-trial')?></label>
+            <div class="col-9">
+                <select name="val[enable-free-trial]">
+                    <option value="0" <?php echo (!config('enable-free-trial', false)) ? 'selected' : null?>><?php _lang('no')?></option>
+                    <option value="1" <?php echo (config('enable-free-trial', false)) ? 'selected' : null?>><?php _lang('yes')?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-3 col-form-label"><?php _lang('free-trial-duration')?></label>
+            <div class="col-9">
+                <input class="form-control" name="val[free-trial-duration]" type="text" value="<?php echo config('free-trial-duration', '14')?>" >
+            </div>
+        </div>
+        <div class="form-group ">
+            <label  class=""><?php _lang('premium-features')?> <span style="font-size: 10px;color: grey">(Use this option to select the feature that will be use as premium)</span></label>
+            <select class="form-control" multiple name="val[premium-features][]">
+                <?php $features = explode(',',config('premium-features', 'watchlist,porfolio,alerts,roi-calculator'));
+
+                ?>
+                <?php foreach(array(
+                    'watchlist','alerts','porfolio','roi-calculator'
+                              ) as $feature):?>
+                    <option <?php echo (in_array($feature, $features)) ? 'selected' : null?> value="<?php echo $feature?>"><?php _lang($feature)?></option>
+                <?php endforeach?>
+            </select>
+        </div>
+        <hr/>
+        <h5><?php _lang('subscription-packages')?></h5>
+        <hr/>
+        <?php
+        $availableFeatures = array(
+            'watchlist',
+            'portfolio',
+            'alerts',
+            'roi-calculator',
+        );
+        ?>
+        <div class="row">
+            <div class="col-md-6">
+                <h6><?php _lang('package')?> 1</h6>
+                <div class="form-group">
+                    <input class="form-control" placeholder="<?php _lang('package-name')?>" type="text" name="val[package-1-name]" value="<?php echo config('package-1-name', '')?>"/>
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" placeholder="<?php _lang('package-price-per-month')?>" type="text" name="val[package-1-price]" value="<?php echo config('package-1-price', '')?>"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group ">
+                    <label  class=""><?php _lang('package-features')?></label>
+                    <select class="form-control" multiple name="val[package-1-features][]">
+                        <?php $features = explode(',',config('package-1-features', ''));
+
+                        ?>
+                        <?php foreach($availableFeatures as $feature):?>
+                            <option <?php echo (in_array($feature, $features)) ? 'selected' : null?> value="<?php echo $feature?>"><?php _lang($feature)?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-md-6">
+                <h6><?php _lang('package')?> 2</h6>
+                <div class="form-group">
+                    <input class="form-control" placeholder="<?php _lang('package-name')?>" type="text" name="val[package-2-name]" value="<?php echo config('package-2-name', '')?>"/>
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" placeholder="<?php _lang('package-price-per-month')?>" type="text" name="val[package-2-price]" value="<?php echo config('package-2-price', '')?>"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group ">
+                    <label  class=""><?php _lang('package-features')?></label>
+                    <select class="form-control" multiple name="val[package-2-features][]">
+                        <?php $features = explode(',',config('package-2-features', ''));
+
+                        ?>
+                        <?php foreach($availableFeatures as $feature):?>
+                            <option <?php echo (in_array($feature, $features)) ? 'selected' : null?> value="<?php echo $feature?>"><?php _lang($feature)?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="tab-pane fade  " id="setting-announcement" role="tabpanel">
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('announcement')?></label>
+                <div class="col-9">
+                    <textarea class="form-control" name="val[announcement]" ><?php echo config('announcement', '')?></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('type')?></label>
+                <div class="col-9">
+                    <select name="val[announcement-type]"  class="form-control-sm">
+                        <option <?php echo (config('announcement-type', 'info') == 'info') ? 'selected' : null?> value="info"><?php _lang('info')?></option>
+                        <option <?php echo (config('announcement-type', 'info') == 'danger') ? 'selected' : null?> value="danger"><?php _lang('danger')?></option>
+                        <option <?php echo (config('announcement-type', 'info') == 'warning') ? 'selected' : null?> value="warning"><?php _lang('warning')?></option>
+                        <option <?php echo (config('announcement-type', 'info') == 'success') ? 'selected' : null?> value="success"><?php _lang('success')?></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade  " id="setting-api" role="tabpanel">
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('google-analytics-id')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[google-analytic]" type="text" value="<?php echo config('google-analytic', '')?>" >
+                </div>
+            </div>
+            <hr/>
+
+        </div>
+        <div class="tab-pane fade show active" id="setting-general" role="tabpanel">
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('site-logo')?></label>
+                <div class="col-9">
+                    <img src="<?php echo url(config('site-logo', 'public/assets/images/logo.png'))?>" style="width: 150px;margin-bottom: 10px"/>
+                    <input type="hidden" value="<?php echo config('site-logo', 'public/assets/images/logo.png')?>" name="val[site-logo]"/>
+                    <input type="file" id="file" name="site_logo" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('site-favicon')?></label>
+                <div class="col-9">
+                    <img src="<?php echo url(config('site-favicon', 'public/assets/images/favicon.png'))?>" style="width: 50px"/>
+                    <input type="hidden" value="<?php echo config('site-favicon', 'public/assets/images/favicon.png')?>" name="val[site-favicon]"/>
+                    <input type="file" id="file" name="site_favicon" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('site-title')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[site-title]" type="text" value="<?php echo config('site-title', 'TCrypto')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('default-language')?></label>
+                <div class="col-9">
+                    <select name="val[default_language]" class="form-control-sm">
+                        <?php foreach(get_languages_list() as $key => $name):?>
+                            <option <?php echo (config('default_language', 'en') == $key) ? 'selected' : null?> value="<?php echo $key?>"><?php echo $name?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('base-currency')?></label>
+                <div class="col-9">
+                    <select name="val[base_currency]" class="form-control-sm">
+                        <?php foreach(getAllCurrencies(true) as $currency):?>
+                            <option <?php echo (config('base_currency', 'USD') == $currency['code']) ? 'selected' : null?> value="<?php echo $currency['code']?>"><?php echo $currency['code'] ?> (<?php echo $currency['name']?>) </option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('description')?></label>
+                <div class="col-9">
+                    <textarea style="height: 100px" class="form-control" name="val[site-description]"><?php echo config('site-description', '')?></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('keywords')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[site-keywords]" type="text" value="<?php echo config('site-keywords', '')?>" >
+                </div>
+            </div>
+
+            <hr/>
+            <?php $formats = array(
+                'd-m-Y',
+                'd/m/Y',
+                'm-d-Y',
+                'm.d.Y',
+                'm/d/Y',
+                'Y-m-d',
+                'd.m.Y'
+            );?>
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('date-format')?></label>
+                <div class="col-9">
+                    <select class="form-control-sm" name="val[date-format]">
+                        <?php foreach($formats as $format):?>
+                            <option <?php echo (config('date-format', 'd-m-Y') == $format) ?'selected':null?> value="<?php echo $format?>"><?php echo date($format)?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Decimal Separator')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[decimal-separator]" type="text" value="<?php echo config('decimal-separator', '.')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Thousand Separator')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[thousand-separator]" type="text" value="<?php echo config('thousand-separator', ',')?>" >
+                </div>
+            </div>
+            <hr/>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('ExchangeRate-api App ID')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[rate_app_id]" type="text" value="<?php echo config('rate_app_id', '')?>" >
+                    <p>You can get it here <a href="https://www.exchangerate-api.com">https://www.exchangerate-api.com</a></p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('User Country API KEY')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[user-country-api]" type="text" value="<?php echo config('user-country-api', '')?>" >
+                    <p>You can get it here <a href="https://usercountry.com/#gettoken">https://usercountry.com/#gettoken</a></p>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Donate Bitcoin Info')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[bitcoin_info]" type="text" value="<?php echo config('bitcoin_info', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Donate Ethereum Info')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[ethereum_info]" type="text" value="<?php echo config('ethereum_info', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Donate Litecoin Info')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[litecoin_info]" type="text" value="<?php echo config('litecoin_info', '')?>" >
+                </div>
+            </div>
+            <hr/>
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Exchange Link')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[exchange-url]" type="text" value="<?php echo config('exchange-url', '')?>" >
+                </div>
+            </div>
+            <hr/>
+
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('homepage-trending-coins')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[trending-coin]" type="text" value="<?php echo config('trending-coin', 'BTC,ETH,XRP,BCH,ADA')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('hide-coins')?></label>
+                <div class="col-9">
+                    <textarea style="height: 100px" class="form-control" name="val[hide-coins]"><?php echo config('hide-coins', 'WBTC,ARENA,AMIS,BITCNY,XUC,VERI,ABC,SPANK,DAR,UFR,EMT,GMT,XNN,ITT,NTWK,walo,WBTC*,EFYT')?></textarea>
+                    <p>Provide coins you want to hide in coins table using their <strong>symbol separated with comma(,)</strong> e.g BTC</p>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('auto-download-coin')?></label>
+                <div class="col-9">
+                    <select class="form-control-sm" name="val[auto-download-coin]">
+                        <option value="0" <?php echo (!config('auto-download-coin', true)) ? 'selected' : null?>><?php _lang('no')?></option>
+                        <option value="1" <?php echo (config('auto-download-coin', true)) ? 'selected' : null?>><?php _lang('yes')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Facebook Handle')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[facebook-handle]" type="text" value="<?php echo config('facebook-handle', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Twitter Handle')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[twitter-handle]" type="text" value="<?php echo config('twitter-handle', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Google Handle')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[google-handle]" type="text" value="<?php echo config('google-handle', '')?>" >
+                </div>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="setting-registration" role="tabpanel">
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('enable-registration')?></label>
+                <div class="col-9">
+                    <select name="val[enable-signup]"  class="form-control-sm">
+                        <option <?php echo (config('enable-signup', 1) == 1) ? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (config('enable-signup', 1) == 0) ? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('send-welcome-mail')?></label>
+                <div class="col-9">
+                    <select name="val[send-welcome-mail]"  class="form-control-sm">
+                        <option <?php echo (config('send-welcome-mail', 1) == 1) ? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (config('send-welcome-mail', 1) == 0) ? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+
+            <hr/>
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('enable-recaptcha')?></label>
+                <div class="col-9">
+                    <select name="val[enable-recaptcha]"  class="form-control-sm">
+                        <option <?php echo (config('enable-recaptcha', 0) == 1) ? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (config('enable-recaptcha', 0) == 0) ? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('recaptcha-v2-site-key')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[captcha-site-key]" type="text" value="<?php echo config('captcha-site-key', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('recaptcha-v2-secret-key')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[captcha-secret-key]" type="text" value="<?php echo config('captcha-secret-key', '')?>" >
+                </div>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="setting-limit" role="tabpanel">
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('Decimal Point')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[decimal-point]" type="text" value="<?php echo config('decimal-point', '3')?>" >
+                </div>
+            </div>
+
+
+        </div>
+        <div class="tab-pane fade" id="setting-emails" role="tabpanel">
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('email-driver')?></label>
+                <div class="col-9">
+                    <select class="form-control form-control-sm" name="val[email-driver]">
+                        <option <?php echo (config('email-driver', 'mail') == 'mail') ? 'selected' : null?> value="mail">PHP Mail</option>
+                        <option <?php echo (config('email-driver', 'mail') == 'smtp') ? 'selected' : null?> value="smtp">SMTP</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label"><?php _lang('from-address')?></label>
+                <div class="col-9">
+                    <input class="form-control" name="val[from_address]" type="text" value="<?php echo config('from_address', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label">SMTP Host</label>
+                <div class="col-9">
+                    <input class="form-control" name="val[smtp-host]" type="text" value="<?php echo config('smtp-host', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label">SMTP Port</label>
+                <div class="col-9">
+                    <input class="form-control" name="val[smtp-port]" type="text" value="<?php echo config('smtp-port', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label">SMTP username</label>
+                <div class="col-9">
+                    <input class="form-control" name="val[smtp-username]" type="text" value="<?php echo config('smtp-username', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label">SMTP password</label>
+                <div class="col-9">
+                    <input class="form-control" name="val[smtp-password]" type="text" value="<?php echo config('smtp-password', '')?>" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label">SMTP charset</label>
+                <div class="col-9">
+                    <input class="form-control" name="val[smtp-charset]" type="text" value="<?php echo config('smtp-charset', 'utf-8')?>" >
+                </div>
+            </div>
+
+
+            <hr/>
+
+            <div class="form-group row">
+                <label  class="col-3 col-form-label">Test Email</label>
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" name="test_email"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-sm btn-info"><?php _lang('send')?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <hr/>
+    <button class="btn btn-primary btn-sm"><?php _lang('save')?></button>
+</form>
+
+<hr/>

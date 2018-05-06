@@ -1,0 +1,1077 @@
+<?php if(config('side_ads', false)):?>
+                <div id="adsholder" style="position: absolute;top: 380px;right: 0px;z-index: 100;width: 100%;height: 600px;overflow: hidden;visibility: hidden;">
+				<div class="adsholder2" style="    margin-left: 501px;
+    margin-right: 0px;
+    visibility: visible;
+    width: 160px;
+    float: none;
+    left: 58.2%;
+    position: absolute;">
+                    <?php echo config('side_ads', '')?>
+                </div>
+				</div>
+            <?php endif?>
+
+
+
+<?php if(!subscription_active(null, 'portfolio')):?>
+    <div class="container">
+        <h5 style="margin: 30px 0;text-align: center"><?php _lang('portfolio')?></h5>
+        <div style="margin-bottom: 15px;text-align: center">
+
+        </div>
+    </div>
+    <div class="pane">
+        <?php echo view('main::user/access')?>
+    </div>
+<?php else:?>
+    <?php
+
+    $coins = get_unique_portfolio_coins();
+    $coinLists = array();
+    foreach($coins as $dcoin) {
+        $coinLists[] = array(
+            'coin' => get_coin($dcoin['base']),
+            'detail' => get_portfolio_coin_detail($dcoin['base'])
+        );
+    }
+
+    ?>
+    <div class="container">
+        <h5 style="margin: 42px 0;text-align: center;font-size: 44px;text-transform:  UPPERCASE;font-weight: 600;color: #828282;margin-bottom: 0px;"><?php _lang('portfolio')?></h5>
+    </div>
+    <?php if(!$coins):?>
+        <div class="pane ">
+            <div class="empty-content">
+                <i class="icons icon-bulb"></i>
+                <p><?php _lang('portfolio-empty-note')?></p>
+                <a href="" data-toggle="modal" data-target="#addCoinModal" class="btn btn-sm btn-primary "><i class="icons icon-plus" style="display: inline-block;font-size: 14px;margin: 0;color: white"></i> <?php _lang('add-coin')?></a>
+            </div>
+        </div>
+        <?php else:?>
+
+        
+        <div class="pane bg-white">
+		
+		<div class="container">
+            <div class="row">
+			
+			<div class="col-md-12" style="
+    margin-bottom: 50px;     margin-top: 24px;
+">
+            <div style="text-align: center">
+                <a href="" data-toggle="modal" data-target="#addCoinModal" class="btn btn-sm btn-primary "><i class="icons icon-plus"></i> <?php _lang('add-coin')?></a>
+            </div>
+        </div>
+		
+		
+		
+		
+		<?php
+                        $worth2 = 0;
+						
+                        foreach($coinLists as $dcoin) {
+
+                            $worth2 += $dcoin['coin']['price'] * $dcoin['detail']['quantity'];
+						
+                        }
+
+                        ?>
+		
+		
+		
+		 <?php
+                            $invest2 = 0;
+							
+                            foreach($coinLists as $dcoin) {
+
+                                $invest2 += $dcoin['detail']['total_rate'];
+								
+                            }
+
+                            ?>
+		
+		
+		
+		
+		
+			<div class="col-md-4
+           " style="
+    margin:  0 auto;
+">
+    
+    <div class="card" style="
+    box-shadow: 0 1px 20px 6px rgba(0,0,0,.1)!important;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #e6ecf5;
+    margin-bottom: 34px;
+">
+                                    <div class="card-content  green white-text" style="    background-color: #ffffff!important;
+    border-radius: 0;
+    border-bottom: 1px solid #e6ecf5;
+">
+                                        <p class="card-stats-title" style="
+    text-align:  center;
+    font-size: 20px;
+    padding: 8px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    color: #516073;
+	text-transform: uppercase;
+">TOTAL VALUE</p>
+                                        
+                                        
+                                    </div>
+                                    <div class="card-content  green white-text" style="
+    background-color: #ffffff!important;
+">
+                                      
+
+<div class="count" style="
+        margin-bottom: 0px;
+    margin-top: 0px;
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
+    color: #5e606d;
+"><?php echo getCurrencySymbol()?><span class="net-worth" data-value="<?php echo $worth2;?>"><?php if(number_format(format_coin_price($worth2,false,false),2,".",",") >= 1){
+
+echo number_format(format_coin_price($worth2,false,false),2,".",",");
+
+} else if (number_format(format_coin_price($worth2,false,false),2,".",",") > 0 && number_format(format_coin_price($worth2,false,false),2,".",",") < 1){
+
+echo number_format(format_coin_price($worth2,false,false),6,".",",");
+
+} else {
+	
+	echo number_format(format_coin_price($worth2,false,false),2,".",",");
+
+}	?>
+</span></div>
+
+
+                                    </div>
+                                </div>
+
+                    </div>
+			
+			
+			
+			
+			
+			
+			
+			
+			<div class="col-md-4
+           " style="
+    margin:  0 auto;
+">
+    
+    <div class="card" style="
+    box-shadow: 0 1px 20px 6px rgba(0,0,0,.1)!important;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #e6ecf5;
+    margin-bottom: 34px;
+">
+                                    <div class="card-content  green white-text" style="    background-color: #ffffff!important;
+    border-radius: 0;
+    border-bottom: 1px solid #e6ecf5;
+">
+                                        <p class="card-stats-title" style="
+    text-align:  center;
+    font-size: 20px;
+    padding: 8px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    color: #516073;
+	text-transform: uppercase;
+"><?php _lang('profit')?></p>
+                                        
+                                        
+                                    </div>
+                                    <div class="card-content  green white-text" style="
+    background-color: #ffffff!important;
+">
+                                      
+
+<div class="count" style="
+        margin-bottom: 0px;
+    margin-top: 0px;
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
+    color: <?php if($worth2 - $invest2 >= 0){
+
+echo "#45b745";
+
+}  else {
+	
+	echo "#b74545";
+
+}	?>;
+"><?php echo getCurrencySymbol()?><span class="total-profit"><?php if(number_format(format_coin_price($worth2 - $invest2,false,false),2,".",",") >= 1){
+
+ echo number_format(format_coin_price($worth2 - $invest2,false,false),2,".",",");
+
+} else if (number_format(format_coin_price($worth2 - $invest2,false,false),2,".",",") > 0 && number_format(format_coin_price($worth2 - $invest2,false,false),2,".",",") < 1){
+
+ echo number_format(format_coin_price($worth2 - $invest2,false,false),6,".",",");
+
+} else {
+	
+	 echo number_format(format_coin_price($worth2 - $invest2,false,false),2,".",",");
+
+}	?>
+
+</span></div>
+
+
+
+                                    </div>
+                                </div>
+
+                    </div>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					<div class="col-md-4
+           " style="
+    margin:  0 auto;
+">
+    
+    <div class="card" style="
+    box-shadow: 0 1px 20px 6px rgba(0,0,0,.1)!important;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #e6ecf5;
+    margin-bottom: 34px;
+">
+                                    <div class="card-content  green white-text" style="    background-color: #ffffff!important;
+    border-radius: 0;
+    border-bottom: 1px solid #e6ecf5;
+">
+                                        <p class="card-stats-title" style="
+    text-align:  center;
+    font-size: 20px;
+    padding: 8px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    color: #516073;
+	text-transform: uppercase;
+"><?php _lang('return')?></p>
+                                        
+                                        
+                                    </div>
+                                    <div class="card-content  green white-text" style="
+    background-color: #ffffff!important;
+">
+                                      
+
+<div class="count" style="
+       margin-bottom: 0px;
+    margin-top: 0px;
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
+    color: <?php if((($worth2 - $invest2) / $invest2) * 100 >= 0){
+
+echo "#45b745";
+
+}  else {
+	
+	echo "#b74545";
+
+}	?>;
+"><span class="total-return"><?php echo number_format(((format_coin_price($worth2,false,false) - format_coin_price($invest2,false,false)) / format_coin_price($invest2,false,false)) * 100, 0)?></span>%</div>
+
+
+                                    </div>
+                                </div>
+
+                    </div>
+			
+			
+	
+            </div>
+			</div>
+			
+			
+			<div class="container" style="
+
+">
+			
+			<div class="pane">
+        <div class="row">
+        
+       
+         
+                <div class="col-md-6" style="text-align: center">
+				
+
+
+
+
+<div id="containerchart" style="width: 100%;"></div>
+
+
+
+<script>
+
+
+Highcharts.chart('containerchart', {
+    chart: {
+        type: 'pie',
+        options3d: {
+            enabled: true,
+            alpha: 45,
+            beta: 0
+        }
+    },
+    title: {
+        text: ''
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            depth: 35,
+            dataLabels: {
+                enabled: false,
+                format: '{point.name}',
+                color: '#616161',
+            style: { fontFamily: '\'Lato\', sans-serif', lineHeight: '18px', fontSize: '15px' }
+            }
+        }
+    },
+    series: [{
+        type: 'pie',
+        name: 'Percentage',
+        data: [
+		
+		<?php
+                            foreach($coinLists as $dcoin){
+                                $detail = $dcoin['detail'];
+                                $invest = $detail['total_rate'];
+                                $coin = $dcoin['coin'];
+                                $name = $coin['name'].'('.$coin['symbol'].')';
+								
+								if($invest <= 0){
+									
+									
+									
+								} else {
+									
+									echo "['".$name."',".$invest."],";
+									
+								}
+
+                            }?>
+        ]
+    } ],  credits: {
+            enabled: false
+        },
+        exporting: { 
+            enabled: false
+      }
+});
+
+
+</script>
+                   
+
+                    <div style="text-align: center;margin-top: 15px">
+                        <h3>
+                            <?php echo getCurrencySymbol()?>
+                            <?php
+                            $invest = 0;
+							
+                            foreach($coinLists as $dcoin) {
+
+                                $invest += $dcoin['detail']['total_rate'];
+								
+                            }
+
+                            ?>
+                            <span class="total-invest" data-value="<?php echo format_coin_price($invest,false,false); ?>">
+							<?php
+
+if(number_format(format_coin_price($invest,false,false),2,".",",") >= 1000){
+		
+		echo number_format(format_coin_price($invest,false,false),2,".",",");
+		
+	} else if (number_format(format_coin_price($invest,false,false),2,".",",") >= 1)  {
+		
+		echo number_format(format_coin_price($invest,false,false),2,".",",");
+		
+	}  else if (number_format(format_coin_price($invest,false,false),2,".",",") == 0)  {
+		
+		echo number_format(format_coin_price($invest,false,false),2,".",",");
+		
+	} else {
+		
+		echo number_format(format_coin_price($invest,false,false),6,".",",");
+		
+	}
+
+
+										   ?></span>
+                        </h3>
+                        <h4 style="color: grey"><?php _lang('investment')?></h4>
+                    </div>
+                </div>
+
+                <div class="col-md-6" style="text-align: center">
+				
+				
+				
+				<div id="containerchart2" style="width: 100%;"></div>
+
+
+
+<script>
+
+
+
+
+
+
+Highcharts.chart('containerchart2', {
+    chart: {
+        type: 'pie',
+        options3d: {
+            enabled: true,
+            alpha: 45,
+            beta: 0
+        }
+    },
+    title: {
+        text: ''
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            depth: 35,
+            dataLabels: {
+                enabled: false,
+                format: '{point.name}',
+                color: '#616161',
+            style: { fontFamily: '\'Lato\', sans-serif', lineHeight: '18px', fontSize: '15px' }
+            }
+        }
+    },
+    series: [{
+        type: 'pie',
+        name: 'Percentage',
+        data: [
+		
+		<?php
+                            foreach($coinLists as $dcoin){
+                                 $detail = $dcoin['detail'];
+                                $worth = $dcoin['coin']['price'] * $dcoin['detail']['quantity'];
+                                $coin = $dcoin['coin'];
+                                $name = $coin['name'].'('.$coin['symbol'].')';
+								
+								if($invest <= 0){
+									
+									
+									
+								} else {
+									
+									echo "['".$name."',".$worth."],";
+									
+								}
+
+                            }?>
+        ]
+    } ],  credits: {
+            enabled: false
+        },
+        exporting: { 
+            enabled: false
+      }
+});
+
+
+
+
+
+
+
+</script>
+
+                  
+                    <div style="text-align: center;margin-top: 15px">
+                    <h3>
+                        <?php echo getCurrencySymbol()?>
+                        <?php
+                        $worth = 0;
+						
+                        foreach($coinLists as $dcoin) {
+
+                            $worth += $dcoin['coin']['price'] * $dcoin['detail']['quantity'];
+						
+                        }
+
+                        ?>
+                        <span class="net-worth" data-value="<?php echo $worth;?>"><?php echo format_coin_price($worth, false);?></span>
+                    </h3>
+                    <h4 style="color: grey"><?php _lang('networth')?></h4>
+                        </div>
+                </div>
+            
+        
+        </div>
+
+
+
+        </div>
+			
+			
+			 </div>
+			
+			
+			
+			<div class="container" style="
+    margin-top: 60px;
+"><div class="row">
+
+ <ul class="nav nav-tabs" id="home-tab" style="
+    width: 100%;
+    text-align:  center;
+    display: table;   /* Allow the centering to work */
+">
+                <li class="nav-item" style="
+    display: inline-block;
+">
+                    <a style="
+    font-size: 18px;
+" class="nav-link active" href="#lists" data-toggle="tab" aria-expanded="true">
+                        <span>Coins</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" style="display: inline-block;">
+                    <a style="
+    font-size: 18px;
+" class="nav-link" href="#transactions" data-toggle="tab" aria-expanded="false">
+                        <span>Transactions</span>
+                    </a>
+                </li>
+            </ul>
+
+
+
+
+			
+			
+		<div class="tab-content row" style=" width: 100%;
+		margin: 0 auto;
+    margin-top: 55px;
+	
+">
+                <div class="tab-pane row active" style="    width: 100%;" id="lists" role="tabpanel">
+                   
+				   		<?php foreach($coinLists as $dcoin):
+
+                            $coin = $dcoin['coin'];
+                            $coinDetail = $dcoin['detail'];
+                            ?>																																					
+
+
+<div style="
+    margin-bottom: 30px; display: inline-block;
+" data-price="<?php echo format_coin_price($coin['price'],false,false)?>" class=" col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 coin-detail-container <?php echo $coin['symbol']?>-detail-container" id="" data-symbol="<?php echo $coin['symbol']?>">
+																					<div class="ui-block" style="box-shadow:0 1px 20px 6px rgba(0,0,0,.1)!important;background-color: #fff;border-radius: 5px;border: 1px solid #e6ecf5;margin-bottom: 15px;">
+																											<div class="friend-item" style="
+    border-radius: 5px;
+    overflow: hidden;
+">
+																												<div class="friend-header-thumb" style="height: 128px;border-bottom: 1px solid #e6ecf5;overflow: hidden;">
+																																																											
+<p class="tooltip" style="position: absolute;top: 9px;right: 24px;padding: 3px;color: #516073;border: 1px solid #a7a6a6;border-radius: 50%;min-width: 26px;min-height: 26px;text-align: center;vertical-align: middle;/* width:  auto; *//* height:  auto; */&quot;><p style=&quot;;background: white;">
+<?php echo $coinDetail['coin_count']?>
+<span class="tooltiptext">Amount of Transactions</span>
+</p>
+																													<a href="http://cryptomarketcheck.com/coin/<?php echo $coin['symbol']?>"><img src="<?php echo get_coin_logo($coin)?>" alt="friend" style="    width: 40px;display:block;margin:0 auto;margin-top: 14px;border: 0;vertical-align: middle;"></a>
+
+<div class="author-content" style="
+    text-align:  center;
+    margin-top: 15px;
+">
+
+  <div class="info"  style="
+    color: #516073;
+    font-size: 18px;
+    font-family: Poppins,sans-serif;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    line-height: 0.1;
+    text-align:  center;
+">
+<?php echo getCurrencySymbol()?><span class="price" data-value="<?php echo $coin['price']?>"><?php if (format_coin_price($coin['price'],false,false) >= 1000) { 
+
+
+echo number_format(format_coin_price($coin['price'],false,false),2,".",",");
+
+} else if (format_coin_price($coin['price'],false,false) >= 1) { 
+echo number_format(format_coin_price($coin['price'],false,false),2,".",",");
+} else if (format_coin_price($coin['price'],false,false) == 0) { 
+echo number_format(format_coin_price($coin['price'],false,false),2,".",",");
+} else  { 
+echo number_format(format_coin_price($coin['price'],false,false),6,".",",");
+} ?>
+</span>
+ </div>
+
+
+
+
+<div class="title" style="
+    color: #888da8;
+    font-size: 13px;
+"><?php echo $coin['name']?> Price</div>
+																															
+																														</div>
+																												</div>
+
+																												<div class="friend-item-content" style="
+    padding: 6px 25px 15px 25px;
+    text-align: center;
+    position: relative;
+    outline: 0;
+">
+
+				<span style="font-size: 13px;vertical-align:middle;color: #21e228;position:  absolute;top: 6px;right: 8px;font-weight: 600; color: <?php 
+if(((($coin['price'] * $coinDetail['quantity']) - ($coinDetail['total_rate']))/($coinDetail['total_rate'])) * 100 >= 0){
+	
+	echo "#21e228";
+	
+} else {
+	
+	echo "#e24521";
+	
+} ?>;">
+<span class="return">
+<?php 
+
+
+echo number_format(((($coin['price'] * $coinDetail['quantity']) - ($coinDetail['total_rate']))/($coinDetail['total_rate'])) * 100, 2);
+	
+
+?></span>%</span>																									
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													<div class="friend-avatar">
+																													
+																														
+<div class="author-content">
+
+
+
+<div class="info" style="
+    color: #516073;
+    font-size: 24px;
+    font-family: Poppins,sans-serif;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    line-height: 1.1;
+" >
+<?php echo getCurrencySymbol()?><span class="value" data-value="<?php echo $coin['price'] * $coinDetail['quantity']?>"><?php if (format_coin_price($coin['price'] * $coinDetail['quantity'],false,false) >= 1000) { 
+
+echo number_format(format_coin_price($coin['price'] * $coinDetail['quantity'],false,false),0,".",",");
+ 
+} else if (format_coin_price($coin['price'] * $coinDetail['quantity'],false,false) >= 1) { 
+
+echo number_format(format_coin_price($coin['price'] * $coinDetail['quantity'],false,false),2,".",",");
+
+} else if (format_coin_price($coin['price'] * $coinDetail['quantity'],false,false) == 0) { 
+
+echo number_format(format_coin_price($coin['price'] * $coinDetail['quantity'],false,false),2,".",",");
+} else  { 
+echo number_format(format_coin_price($coin['price'] * $coinDetail['quantity'],false,false),6,".",",");
+} ?>
+</span>
+                                    </div>
+
+
+
+
+									
+
+
+ <div class="info coin-quantity" style="
+    color: #516073;
+    font-family: Poppins,sans-serif;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+" data-quantity="<?php echo $coinDetail['quantity']?>" >
+ 
+                                        (<?php echo $coinDetail['quantity']?> <?php echo $coin['symbol']?>)
+										
+                                    </div>
+
+
+																															
+																														</div>
+																													</div>
+																																																										<div class="swiper-container swiper-container-horizontal" style="
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 3;
+">
+																														<div class="swiper-wrapper" style="
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+    -o-transform: translate(0,0);
+    -ms-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    -ms-transition-property: -ms-transform;
+    transition-property: transform;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+">
+																															<div class="swiper-slide swiper-slide-active" style="-webkit-flex-;auto;height: 100%;width: 100%;position: relative;">
+																																<div class="friend-count" data-swiper-parallax="-500" style="
+    margin-bottom: 20px;
+">
+																																	<a  class="friend-count-item" style="
+    color: #688696;
+    transition: all .5s ease;
+    display: inline-block;
+    margin-right: 25px;
+    text-decoration: none;
+    outline: 0;
+">
+
+<div class="info invest" style="font-size: 1rem;color: #516073;font-family: Poppins,sans-serif;margin-top: 10px;margin-bottom: 10px;font-weight: 500;line-height: 1.1;" data-value="<?php echo $coinDetail['total_rate']?>" >
+                                      <?php echo getCurrencySymbol()?><?php 
+									  
+									  if (format_coin_price($coinDetail['total_rate'],false,false) >= 1000) { 
+									  
+								
+									  echo number_format(format_coin_price($coinDetail['total_rate'],false,false),0,".",",");
+									  
+									  } else if (format_coin_price($coinDetail['total_rate'],false,false) >= 1) { 
+									  
+								
+									   echo number_format(format_coin_price($coinDetail['total_rate'],false,false),2,".",",");
+									  
+									  } else if (format_coin_price($coinDetail['total_rate'],false,false) == 0) {
+
+								 
+									   echo number_format(format_coin_price($coinDetail['total_rate'],false,false),2,".",",");
+									  
+									  } else  { 
+									  
+								
+									   echo number_format(format_coin_price($coinDetail['total_rate'],false,false),6,".",",");
+									  
+									  } ?>
+                                    </div>
+
+																																		<div class="title" style="
+    color: #888da8;
+    font-size: 14px;
+">Invested</div>
+																																	</a>
+																																	<a class="friend-count-item" style="
+    color: #688696;
+    transition: all .5s ease;
+    display: inline-block;
+    margin-right: 25px;
+    text-decoration: none;
+    outline: 0;
+">
+
+
+<div class="info" style="font-size: 1rem;color: #08ddc1;font-family: Poppins,sans-serif;margin-top: 10px;margin-bottom: 10px;font-weight: 500;line-height: 1.1;" >
+
+<span  style="color:white;font-size: .75em;font-weight: 600;margin-top: -2px;display: block;background-color: <?php if(($coin['price'] * $coinDetail['quantity']) - ($coinDetail['total_rate']) >= 0){ echo "#47d621"; } else { echo "#EF5350"; } ?>;border-radius: 20px;padding: 5px 12px;text-transform: uppercase;line-height: 1;white-space: nowrap;vertical-align: baseline;text-align: center;">
+<?php echo getCurrencySymbol()?> 
+<span class="profit" data-value="<?php echo ($coin['price'] * $coinDetail['quantity']) - ($coinDetail['total_rate']); ?>">
+
+
+<?php if (format_coin_price(($coin['price'] * $coinDetail['quantity']) - ($coinDetail['total_rate']),false,false) >= 1000) { 
+
+
+echo number_format(format_coin_price(($coin['price'] * $coinDetail['quantity']) - ($coinDetail['total_rate']),false,false),0,".",",");
+
+}  else  { 
+
+echo number_format(format_coin_price(($coin['price'] * $coinDetail['quantity']) - ($coinDetail['total_rate']),false,false),2,".",",");
+} ?>
+
+
+</span>
+</span>
+                                    </div>
+
+																																		<div class="title" style="
+    color: #888da8;
+    font-size: 14px;
+">Profit</div>
+																																	</a>
+																																	<a  class="friend-count-item" style="
+    margin-right: 0;
+    color: #688696;
+    text-decoration: none;
+    outline: 0;
+    transition: all .5s ease;
+    display: inline-block;
+">
+
+<div class="info" style="font-size: 1rem;color: #516073;font-family: Poppins,sans-serif;margin-top: 10px;margin-bottom: 10px;font-weight: 500;line-height: 1.1;">
+<?php echo getCurrencySymbol()?><span class="value" data-value="<?php echo $coin['price'] * $coinDetail['quantity']?>"><?php if (format_coin_price($coin['price'] * $coinDetail['quantity'],false,false) >= 1000) { 
+
+echo number_format(format_coin_price($coin['price'] * $coinDetail['quantity'],false,false),0,".",",");
+ 
+} else if (format_coin_price($coin['price'] * $coinDetail['quantity'],false,false) >= 1) { 
+
+echo number_format(format_coin_price($coin['price'] * $coinDetail['quantity'],false,false),2,".",",");
+
+} else if (format_coin_price($coin['price'] * $coinDetail['quantity'],false,false) == 0) { 
+
+echo number_format(format_coin_price($coin['price'] * $coinDetail['quantity'],false,false),2,".",",");
+} else  { 
+echo number_format(format_coin_price($coin['price'] * $coinDetail['quantity'],false,false),6,".",",");
+} ?>
+</span>
+
+                                    </div>
+
+
+																																		<div class="title" style="
+    color: #888da8;
+    font-size: 14px;
+">Value</div>
+																																	</a>
+																																</div>
+																															</div>
+
+																															
+																															
+																														</div>
+
+																														<!-- If we need pagination -->
+																														<div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span></div>
+																													</div>
+																																																									</div>
+																											</div>
+																										</div>
+																								</div>
+																								
+																							
+																								<?php endforeach?>
+				   
+                </div>
+
+                <div style="margin: 0 auto;" class="tab-pane" id="transactions" role="tabpanel">
+                    <table id="portfolioTransactionList" class="table table-hover  table-coin table-responsive">
+                        <thead>
+                        <tr style="
+    height: 50px;
+">
+                            <th><?php _lang('market')?></th>
+                            <th><?php _lang('quantity')?></th>
+                            <th><?php _lang('rate')?></th>
+                            <th><?php _lang('date')?></th>
+                            <th><?php _lang('total-cost')?></th>
+                            <th></th>
+							<th>Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach(get_portfolio_coins() as $transaction):?>
+						
+                            <tr>
+							
+                                <td class="clearfix">
+
+                                    <div class="info">
+									<a href="http://cryptomarketcheck.com/coin/<?php echo $transaction['base']; ?>" style="">
+									<img src="http://cryptomarketcheck.com/public/assets/images/coins/<?php echo strtolower($transaction['base']); ?>.jpg" style="width: 32px;">
+									</a>
+                                    </div>
+                                </td>
+                                <td class="clearfix">
+                                    <div class="info">
+                                        <?php echo $transaction['amount']?>
+                                    </div>
+                                </td>
+                                <td class="clearfix">
+                                    <div class="info">
+                                        <?php echo format_coin_price($transaction['rate'])?>
+                                    </div>
+                                </td>
+                                <td class="clearfix">
+                                    <div class="info">
+                                        <?php echo $transaction['date_created']?>
+                                    </div>
+                                </td>
+                                <td class="clearfix">
+                                    <div class="info">
+                                        <?php echo format_coin_price($transaction['rate'] * $transaction['amount'])?>
+                                    </div>
+                                </td>
+                                <td>
+
+                                </td>
+								
+								<td class="clearfix">
+                          <form action="" method="post" id="portfolio-coin-form-remove">          
+
+ <button style="
+    color: #d44a4a;
+" class="btn btn-primary btn-sm">Remove</button>
+
+<input type="hidden" name="portfolioids" value="<?php echo $transaction['id']?>" />
+								</form>
+                                </td>
+								
+                            </tr>
+							
+							
+							
+							
+							
+							
+                        <?php endforeach?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+			
+			
+										
+																																																					
+
+																								
+</div></div>
+			
+			
+			
+			
+			
+			
+			
+	
+
+           
+        </div>
+        <?php endif?>
+<?php endif?>
+
+
+<?php if(config('top_ads', false)):?>
+<div class="container" style="
+    margin-bottom: 50px;
+">
+            <div class="" style="padding: 10px 0; ">
+                <?php echo config('top_ads', '')?>
+            </div>
+			</div>
+        <?php endif?>
+
+
+<div class="modal fade" id="addCoinModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><?php _lang('add-coin-portfolio')?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post" id="portfolio-coin-form">
+                <input type="hidden" name="id" value="<?php echo $portfolio['id']?>"/>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+
+                                <div>
+                                    <select name="purchase" required style="width: 100% !important;" class="select2 form-control" >
+                                        <?php foreach(get_all_coins() as $dcoin):?>
+                                            <option <?php echo ($dcoin['symbol'] == 'BTC') ? 'selected' : null?> value="<?php echo $dcoin['symbol']?>"><?php echo $dcoin['symbol']?></option>
+                                        <?php endforeach?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon">#</div>
+                                    <input placeholder="<?php _lang('amount')?>" required type="text" value="" class="form-control" name="amount"/>
+                                </div>
+
+                                <small><?php _lang('number-help-info')?></small>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input placeholder="<?php _lang('bought-on')?>" required type="text" value="" data-time="true" class="form-control datepicker" name="time"/>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><?php echo config('base_currency', 'USD')?></div>
+                                    <input placeholder="<?php _lang('rate')?>" required type="text" value="" class="form-control" name="rate"/>
+                                </div>
+
+                                <small><?php _lang('number-help-info')?></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-sm"><?php _lang('save')?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

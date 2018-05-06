@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Highcharts Example</title>
+
+		<style type="text/css">
+
+		</style>
+	</head>
+	<body>
+<!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+<!-- <script src="https://code.highcharts.com/modules/series-label.js"></script> -->
+<!-- <script src="https://code.highcharts.com/modules/exporting.js"></script> -->
+<!-- <script src="https://code.highcharts.com/modules/export-data.js"></script> -->
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+	<script type="text/javascript">
+			coin = window.location.href;
+			c = coin.split('/')[6];
+			<!-- console.log(c) -->
+			var btcprice = [];
+			var usdprice = [];
+			var date = [];
+			var volume = [];
+			
+			<!-- $.getJSON("http://localhost/test/public_html/app/views/coin/btcprice.php?coin=" + c, function(data){ -->
+					<!-- data = JSON.parse(data) -->
+					<!-- console.log(data) -->
+					<!-- for(i=0; i <= data.length - 1; i++){ -->
+						<!-- time = new Date(data[i]["time"] * 1000).toString(), -->
+						<!-- x = time.split(" ")[0] + " " + time.split(" ")[1] + " " + time.split(" ")[2] + " " + time.split(" ")[3],  -->
+						<!-- close = data[i]["close"], -->
+						<!-- btcprice.push(close) -->
+						<!-- date.push(x) -->
+						<!-- volume.push(data[i]["volumeto"]) -->
+					<!-- } -->
+				<!-- }); -->
+				
+			<!-- $.getJSON("http://localhost/test/public_html/app/views/coin/usdprice.php?coin=" + c, function(data){ -->
+					<!-- data = JSON.parse(data) -->
+					<!-- console.log(data) -->
+					<!-- for(i=0; i <= data.length - 1; i++){ -->
+						<!-- time = new Date(data[i]["time"] * 1000), -->
+						<!-- close = data[i]["close"], -->
+						<!-- usdprice.push(close) -->
+					<!-- } -->
+				<!-- }); -->
+				
+			$.when($.getJSON("http://localhost/test/public_html/app/views/coin/usdprice.php?coin=" + c), $.getJSON("http://localhost/test/public_html/app/views/coin/btcprice.php?coin=" + c)).done(function(r1, r2){
+					data = JSON.parse(r1[0])
+			
+					for(i=0; i <= data.length - 1; i++){
+						time = new Date(data[i]["time"] * 1000),
+						close = data[i]["close"],
+						usdprice.push(close)
+					}
+					
+					data = JSON.parse(r2[0])
+				
+					for(i=0; i <= data.length - 1; i++){
+						time = new Date(data[i]["time"] * 1000).toString(),
+						x = time.split(" ")[0] + " " + time.split(" ")[1] + " " + time.split(" ")[2] + " " + time.split(" ")[3], 
+						close = data[i]["close"],
+						btcprice.push(close)
+						date.push(x)
+						volume.push(data[i]["volumeto"])
+					}
+					<!-- console.log(JSON.parse(r1[0])) -->
+					<!-- console.log(r2[0]) -->
+					myfunc()
+			});
+			
+		<!-- function x(){ -->
+		var chart = Highcharts.chart('container', {
+			chart: {
+				zoomType: 'x',
+				alignTicks: false
+			},
+			title: {
+				text: c.toUpperCase() + " Chart"
+			},
+			
+			
+						
+			xAxis: {
+				title: {
+					text: 'Date'
+				},
+				categories:date,
+                type: 'datetime',
+				
+            },
+			yAxis: [{ // Primary yAxis
+				labels: {
+					format: '',
+					style: {
+						color: Highcharts.getOptions().colors[2]
+					}
+				},
+				title: {
+					text: 'Price (USD)',
+					style: {
+						color: Highcharts.getOptions().colors[2]
+					}
+				},
+				opposite: true,
+				height: '65%'
+
+			}, { // Secondary yAxis
+				gridLineWidth: 0,
+				title: {
+					text: 'Price (BTC)',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				},
+				labels: {
+					format: '',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				},
+				height: '65%'
+
+			}, 
+			<!-- { // Tertiary yAxis -->
+				<!-- gridLineWidth: 0, -->
+				<!-- title: { -->
+					<!-- text: 'Marketcap', -->
+					<!-- style: { -->
+						<!-- color: Highcharts.getOptions().colors[1] -->
+					<!-- } -->
+				<!-- }, -->
+				<!-- labels: { -->
+					<!-- format: '', -->
+					<!-- style: { -->
+						<!-- color: Highcharts.getOptions().colors[1] -->
+					<!-- } -->
+				<!-- }, -->
+				<!-- opposite: true -->
+			<!-- } -->
+			 {
+				labels: {
+					align: 'right',
+					x: -3,
+					style: {
+						color: Highcharts.getOptions().colors[2]
+					}
+				},
+				title: {
+					text: '24h Volume'
+				},
+				top: '70%',
+				height: '30%',
+				offset: 0,
+				lineWidth: 2
+			}],
+			
+			tooltip: {
+				shared: true,
+				crosshairs:true
+				
+			},
+			legend: {
+				layout: 'horizontal',
+				align: 'center',
+				x: 0,
+				verticalAlign: 'bottom',
+				y: 0,
+				floating: true,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+			},
+			
+			
+			
+			series: [
+			
+			 
+			<!-- { -->
+				<!-- name: 'BTC', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 0, -->
+				<!-- data: btcprice, -->
+				<!-- marker: { -->
+					<!-- enabled: false -->
+				<!-- }, -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' btc' -->
+				<!-- } -->
+
+			<!-- } -->
+			<!-- ,{  -->
+				<!-- name: 'USD', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 1, -->
+				<!-- data: usdprice, -->
+				<!-- marker: { -->
+					<!-- enabled: false -->
+				<!-- }, -->
+				<!-- dashStyle: 'shortdot', -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' usd' -->
+				<!-- } -->
+
+			<!-- } -->
+			
+			]
+			<!-- [ -->
+			
+			<!-- { -->
+				<!-- name: 'Sea-Level Pressure', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 2, -->
+				<!-- data: [1016, 1016, 1015.9, 1015.5, 1012.3, 1009.5, 1009.6, 1010.2, 1013.1, 1016.9, 1018.2, 1016.7], -->
+				<!-- marker: { -->
+					<!-- enabled: false -->
+				<!-- }, -->
+				<!-- dashStyle: 'shortdot', -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' mb' -->
+				<!-- } -->
+
+			<!-- },  -->
+			
+			<!-- { -->
+				<!-- name: 'Temperature', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 0, -->
+				<!-- data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6], -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' °C' -->
+				<!-- } -->
+			<!-- } -->
+			
+			<!-- ] -->
+
+
+		});
+		
+		<!-- }; -->
+		
+
+			
+			
+			
+		
+					
+			function myfunc(){
+						series1 = {
+						name: 'BTC',
+						type: 'spline',
+						yAxis: 0,
+						data: btcprice,
+						marker: {
+							enabled: false
+						},
+						tooltip: {
+							valueSuffix: ' btc'
+						}
+
+					},
+					
+					series2 = { 
+						name: 'USD',
+						type: 'spline',
+						yAxis: 1,
+						data: usdprice,
+						marker: {
+							enabled: false
+						},
+						tooltip: {
+							valueSuffix: ' usd'
+						}
+
+					},
+					
+					series3 ={
+					type: 'column',
+					name: 'Volume',
+					data: volume,
+					yAxis: 2,
+					<!-- dataGrouping: { -->
+						<!-- units: groupingUnits -->
+						<!-- } -->
+					}
+					
+					chart.addSeries(series1)
+					chart.addSeries(series2)
+					chart.addSeries(series3)
+				};
+			<!-- setTimeout(myfunc, 2000) -->
+			<!-- $(window).ready(function(){ -->
+				<!-- setTimeout(myfunc, 30000) -->
+			<!-- }) -->
+			
+	
+		
+	</script>
+	</body>
+</html>

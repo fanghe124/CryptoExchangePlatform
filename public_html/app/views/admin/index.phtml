@@ -1,0 +1,79 @@
+
+<div class="row">
+   <div class="col-sm-12 ">
+       <div class="row">
+           <div class="col-sm-4">
+               <div class="stat row">
+                   <div class="col-sm-4">
+                       <i class="icons icon-user"></i>
+                   </div>
+                   <div class="col-sm-6">
+                       <div class="count"><?php echo count_users()?></div>
+                       <div class="text"><?php _lang('users')?></div>
+                   </div>
+               </div>
+           </div>
+           <div class="col-sm-4">
+               <div class="stat row" style="background:#99CC00">
+                   <div class="col-sm-4" style="background: #BCDD57">
+                       <i class="icons icon-disc"></i>
+                   </div>
+                   <div class="col-sm-6" >
+                       <div class="count"><?php echo count_all_coins()?></div>
+                       <div class="text"><?php _lang('coins')?></div>
+                   </div>
+               </div>
+           </div>
+
+       </div>
+   </div>
+
+    <div class="col-sm-12" id="site-overview-chart">
+        <script>
+        function get_site_chart_config() {
+                var config = {
+            type: 'bar',
+            data: {
+                datasets: [{
+                 			data: [
+                 			<?php echo count_users()?>,
+                 			 <?php echo count_all_coins()?>
+                 			 ],
+                 			backgroundColor: [
+                 				"#FF8060",
+                 				'#B84FDC',
+                 				'#FF57BC',
+                 				'#72C5E1',
+                 				'#BCDD57'
+                 			]
+                 		}],
+
+                 		labels: [
+                        			"<?php _lang('users')?>",
+                        			"<?php _lang('coins')?>"
+                        		]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom',
+                    display:false
+                },
+                title: {
+                    display: true
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }};
+
+            return config;
+            }
+
+
+            </script>
+        <canvas width="400" height="400" style="width: 250px !important;height: 250px !important;"  id="site-overview-doughnut" class="" />
+    </div>
+
+</div>

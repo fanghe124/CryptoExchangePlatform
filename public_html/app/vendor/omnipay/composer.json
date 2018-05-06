@@ -1,0 +1,78 @@
+{
+    "name": "omnipay/omnipay",
+    "type": "metapackage",
+    "description": "Includes Omnipay payment processing library and all officially supported gateways",
+    "keywords": [
+        "2checkout",
+        "2co",
+        "auth.net",
+        "authorize",
+        "authorize.net",
+        "buckaroo",
+        "cardsave",
+        "coinbase",
+        "cybersource",
+        "commweb",
+        "dps",
+        "egate",
+        "eway",
+        "express",
+        "first data",
+        "firstdata",
+        "gateway",
+        "gocardless",
+        "ideal",
+        "merchant",
+        "migs",
+        "mollie",
+        "multisafepay",
+        "netaxept",
+        "netbanx",
+        "pagarme",
+        "pay",
+        "payfast",
+        "payflow",
+        "payment",
+        "paymentexpress",
+        "payone",
+        "paypal",
+        "pin",
+        "purchase",
+        "rapid",
+        "sagepay",
+        "securepay",
+        "stripe",
+        "tala",
+        "tala-payments",
+        "targetpay",
+        "twocheckout",
+        "worldpay",
+        "payU",
+        "checkoutcom",
+        "tpay"
+    ],
+    "homepage": "http://omnipay.thephpleague.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        }
+    ],
+    "require": {
+        "omnipay/paypal": "~2.0",
+        "omnipay/stripe": "~2.0",
+        "omnipay/coinbase": "~2.0",
+        "coingate/omnipay-coingate": "dev-master"
+    },
+    "require-dev": {
+        "omnipay/tests": "^3"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="<?php echo Translation::getInstance()->lang()?>">
+<head>
+<?php header('Content-Type: text/html; charset="utf-8"', true); ?>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700" rel="stylesheet">
+
+    <title><?php echo $title?></title>
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo $favicon?>" />
+    <link rel="stylesheet" href="<?php echo url('public/assets/css/plugins.css')?>?v=1.7"/>
+    <link rel="stylesheet" href="<?php echo url('public/assets/js/amstock/style.css')?>"/>
+    <link rel="stylesheet" href="<?php echo url('public/assets/js/amstock/plugins/export/export.css')?>"/>
+    <link rel="stylesheet" href="<?php echo url("public/styles/".get_theme()."/css/style.css")?>?v=<?php echo time()?>"/>
+    <meta name="keywords" content="<?php echo $keywords?>"/>
+    <meta name="description" content="<?php echo $description?>"/>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <?php echo $header_content?>
+
+        <style>
+            .left-pane{
+                background: <?php echo config('side-background-color', '#4B68CC')?> ;
+            }
+            .btn-primary, .primary-color {
+                background-color:<?php echo config('primary-color', '#6751c8')?> !important;
+                border-color: <?php echo config('primary-color', '#6751c8')?> !important;;
+                color: white !important;
+            }
+
+            #header .bottom #header-nav .active ,.nav-tabs .active{
+                border-color: <?php echo config('primary-color', '#6751c8')?> !important;
+            }
+            .top-statistics .value {
+                color: <?php echo config('primary-color', '#6751c8')?> !important;
+            }
+            .side-coin-item:hover,.side-coin-active {
+                background: <?php echo config('side-item-active-color', '#667FD4')?> !important;
+            }
+            .left-pane .side-bottom-content,.logo-container {
+                border-color: <?php echo config('side-border-color', '#667FD4')?> ;
+            }
+            .left-pane .coins-list td {
+                color: <?php echo config('side-item-text-color', '#C5CEEE')?> !important;
+            }
+            .btn-primary:hover {
+                opacity: 0.8;
+            }
+
+            .night_mode, .night_mode .pane{
+                background: #191E28;
+                color: #B4B5B8;
+            }
+            .night_mode a{
+                color: white;
+            }
+            .night_mode .left-pane {
+                background: #101318;
+
+            }
+            .night_mode .logo-container {
+                border-bottom-color: #101318;
+            }
+            .night_mode .left-pane .side-bottom-content {
+                border-color: #101318;
+            }
+            .night_mode #header {
+                background: #151921;
+                border-color: none !important;
+            }
+            .night_mode #header .bottom {
+                border: none;
+            }
+            .night_mode #header .bottom #header-nav > li > .nav-link {
+                color: #B4B5B8;
+            }
+            .night_mode #header .bottom .top-search {
+                background: #000000;
+                border: none;
+            }
+            .night_mode #header .bottom .top-search input{
+                background: none;
+                color: white;
+            }
+            .night_mode #header .bottom .top-search i{
+                color: #B4B5B8;
+            }
+            .night_mode #header #header-left-nav li > .circle-nav {
+                background: black;
+                color: white;
+            }
+            .night_mode .page-nav > a{
+                color: #B4B5B8;
+            }
+            .night_mode .page-nav .active {
+                color: white;
+            }
+            .night_mode .table-coin tbody tr {
+                border-color: #191E28;
+                background: #2F3238;
+            }
+            .night_mode .btn-secondary {
+                background: #2F3238;
+                color: white;
+                border: none;
+            }
+            .night_mode .footer{
+                background: #151921;
+                border-color: #000000;
+                color: white;
+            }
+            .night_mode .coin-header .coin-price .price {
+                color: #B4B5B8;
+            }
+            .night_mode .select2-container--default .select2-selection--multiple {
+                background: #000000;
+                border-color: #000000;
+            }
+            .night_mode .coin-chart #coin-chart-container .amChartsButton, #coin-chart #coin-chart-container .amChartsButtonSelected {
+                color: white !important;
+            }
+            .night_mode .stat{
+                background: #000000;
+                color: white;
+            }
+            .night_mode .coin-stat-info .stat .prices {
+                color: white;
+            }
+            .night_mode .dropdown-menu {
+                background: #000000;
+            }
+            .night_mode .pane-bg {
+                background: #292626 !important;
+            }
+            .night_mode .social-follow-links a {
+                background: black;
+            }
+            .night_mode .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+                color: #B4B5B8;
+            }
+            .night_mode .nav-tabs, .night_mode .trending-coins-pane .each-top-coin {
+                border-color: #000000;
+            }
+            .night_mode .rank-badge {
+                background: #000000;
+                color: white;
+            }
+        <?php echo config('custom-css-code', '')?>
+
+
+    </style>
+    <?php if(config('google-analytic', '')):?>
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo config('google-analytic', '')?>"></script>
+        <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', '<?php echo config('google-analytic', '')?>');
+</script>
+    <?php endif?>
+</head>
+<body class="<?php echo is_light_off() ? 'night_mode' : null?>" style="">

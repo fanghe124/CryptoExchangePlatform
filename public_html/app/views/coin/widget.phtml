@@ -1,0 +1,56 @@
+<div data-no-flash="true"  data-price="<?php echo format_coin_price($coin['price'],false,false)?>" class="widget coin-detail-container <?php echo $coin['symbol']?>-detail-container" id="" data-symbol="<?php echo $coin['symbol']?>">
+    <div class="media head">
+        <img class="d-flex mr-3" style="width: 50px" src="<?php echo url('public/assets/images'.$coin['logo'])?>" >
+        <div class="media-body">
+            <h5 class="mt-0">
+                <a href="<?php echo coin_link($coin)?>">
+                    <?php echo $coin['name']?>
+                    <span style="color: grey">
+                    <?php if(input('symbol')):?>
+                        (<?php echo $coin['symbol']?>)
+                    <?php endif?>
+
+                </span>
+                </a>
+            </h5>
+            <?php echo getCurrencySymbol(true)?>
+            <span class="price"><?php echo format_coin_price($coin['price'],false)?></span>
+            (<span class="change <?php echo (($coin['change_24h'] > 0)) ? 'change-up' : 'change-down'?>">
+            <i class=" <?php echo (($coin['change_24h'] > 0)) ? 'icons icon-arrow-up-circle' : 'icons icon-arrow-up-circle'?>"></i>
+            <?php echo $coin['change_24h']?>%</span>)
+        </div>
+    </div>
+
+    <?php if(input('market') or input('volume') or input('rank')):?>
+        <div class="stats clearfix">
+            <?php if(input('rank')):?>
+                <div class="" style="padding-top: 10px;
+    padding-bottom: 16px;">
+                    <div style="    font-size: 14px;" class="title"><?php _lang('rank')?></div>
+                    <span class="badge badge-default"><i class="icons icon-star"></i> <?php echo get_coin_rank($coin['symbol'])?></span>
+                </div>
+            <?php endif?>
+
+            <?php if(input('market')):?>
+                <div class="" style="padding-top: 10px;
+    padding-bottom: 16px;">
+                    <div style="    font-size: 14px;" class="title"><?php _lang('market-cap')?></div>
+                    <?php echo getCurrencySymbol(true)?>
+                    <span><?php echo formatNumber($coin['market_cap'],2)?></span>
+                </div>
+            <?php endif?>
+
+            <?php if(input('volume')):?>
+                <div class="" style="padding-top: 10px;
+    padding-bottom: 16px;">
+                    <div style="    font-size: 14px;" class="title"><?php _lang('volume')?> 24H</div>
+                    <?php echo formatNumber($coin['volume'],2)?> <?php echo input('currency')?>
+                </div>
+            <?php endif?>
+        </div>
+    <?php endif?>
+    <div class="foot">
+        <a target="_blank" href="<?php echo url()?>"><?php  echo lang('powered-by').' '.config('site-title','CoinRank')?></a>
+    </div>
+</div>
+

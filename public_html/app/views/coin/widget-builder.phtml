@@ -1,0 +1,66 @@
+<?php $d = (isset($coin)) ? $coin : 'BTC';?>
+<div class="row" id="widget-customizer" style="margin-top: 54px">
+    <div class="col-md-1"></div>
+    <div class="col-md-4" style="    margin-top: 20px;">
+        <div class="form-group row">
+            <label  class="col-sm-5 col-form-label"><?php _lang('cryptocurrency')?></label>
+            <div class="col-sm-7">
+                <select id="widget-coin" onchange="do_widget_change()" class="form-control select2 from" style="width: 100% !important;">
+                    <?php foreach(get_all_coins() as $coin):?>
+                        <option <?php echo ($coin['symbol'] == $d) ? 'selected' : null?> value="<?php echo $coin['symbol']?>"><?php echo $coin['symbol']?></option>
+                    <?php endforeach?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-sm-5 col-form-label"><?php _lang('display-currency')?></label>
+            <div class="col-sm-7">
+                <select id="widget-currency" onchange="do_widget_change()" class="form-control select2 from" style="width: 100% !important;">
+                    <?php foreach(getAllCurrencies() as $currency):?>
+                        <option <?php echo ($currency['code'] == getCurrency()) ? 'selected' : null?> value="<?php echo $currency['code']?>"><?php echo $currency['code']?></option>
+                    <?php endforeach?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-sm-5 col-form-label"><?php _lang('show-coin-symbol')?></label>
+            <div class="col-sm-7">
+                <input type="checkbox" checked onchange="do_widget_change()" id="widget-symbol" class="toggle-one"  data-size="mini" data-style="ios" name="" value="1" type="checkbox"   data-on="<i></i>" data-off="<i></i>" data-onstyle="primary" data-offstyle="secondary"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-sm-5 col-form-label"><?php _lang('show-rank')?></label>
+            <div class="col-sm-7">
+                <input type="checkbox" checked onchange="do_widget_change()" id="widget-rank" class="toggle-one"  data-size="mini" data-style="ios" name="" value="1" type="checkbox"   data-on="<i></i>" data-off="<i></i>" data-onstyle="primary" data-offstyle="secondary"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label  class="col-sm-5 col-form-label"><?php _lang('show-market-cap')?></label>
+            <div class="col-sm-7">
+                <input type="checkbox" checked onchange="do_widget_change()" id="widget-market" class="toggle-one"  data-size="mini" data-style="ios" name="" value="1" type="checkbox"   data-on="<i></i>" data-off="<i></i>" data-onstyle="primary" data-offstyle="secondary"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label  class="col-sm-5 col-form-label"><?php _lang('show-volume')?></label>
+            <div class="col-sm-5">
+                <input type="checkbox" checked onchange="do_widget_change()" id="widget-volume" class="toggle-one"  data-size="mini" data-style="ios" name="" value="1" type="checkbox"   data-on="<i></i>" data-off="<i></i>" data-onstyle="primary" data-offstyle="secondary"/>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="pane bg-white" style="margin: 0">
+            <div class="widget-preview">
+
+            </div>
+            <div class="widget-embed-text">
+                <textarea rows="7"  class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

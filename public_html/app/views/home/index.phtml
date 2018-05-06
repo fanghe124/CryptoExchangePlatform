@@ -1,0 +1,95 @@
+
+
+<?php if(config('side_ads', false)):?>
+                <div id="adsholder" style="position: absolute;top: 380px;right: 0px;z-index: 100;width: 100%;height: 600px;overflow: hidden;visibility: hidden;">
+				<div class="adsholder2" style="    margin-left: 501px;
+    margin-right: 0px;
+    visibility: visible;
+    width: 160px;
+    float: none;
+    left: 58.2%;
+    position: absolute;">
+                    <?php echo config('side_ads', '')?>
+                </div>
+				</div>
+            <?php endif?>
+
+
+<div class="pane">
+    <div class="container">
+        <?php if(config('top_ads', false)):?>
+            <div class="" style="padding: 10px 0">
+                <?php echo config('top_ads', '')?>
+            </div>
+        <?php endif?>
+		
+		
+		
+		 
+	
+		
+		
+
+		
+        <table class="table table-coin" style="    margin-top: 40px;
+    border-top: 1px solid #eceeef;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;">
+            <thead>
+            <tr>
+                <th></th>
+                <th><?php _lang('rank')?></th>
+
+                <?php
+                $columns = my_table_columns();
+                foreach($columns as $column ) {
+                    if (!in_array($column, array('action','24h_performance'))) {
+                        $nameUrl = $column.'_url';
+                        $typeText = $column.'_type';
+                        if (($column == $order)) {
+                            $ot = ($orderType == 'ASC') ? 'DESC' : 'ASC';
+                            $$typeText = ($ot == 'DESC') ? 'arrow-down-circle' : 'arrow-up-circle';
+                        } else {
+                            $ot = 'DESC';
+                            $$typeText = '';
+                        }
+
+                        $$nameUrl = '?limit='.$limit.'&offset='.$offset.'&order='.$column.'&order_type='.$ot;
+                    }
+                }
+                ?>
+
+                <?php foreach($columns as $column):$url = $column .'_url';$types = $column.'_type'?>
+                    <?php if($type == 'coins'):?>
+                        <th class="<?php echo (!in_array($column, array('name','price'))) ? 'hide-mobile' : null?>"><a class="ajax-link" href="<?php echo $$url?>"> <?php _lang($column)?> <i style="font-size: 11px" class="icons icon-<?php echo $$types?>"></i> </a></th>
+                        <?php else:?>
+                        <th class="<?php echo (!in_array($column, array('name','price'))) ? 'hide-mobile' : null?>"> <?php _lang($column)?> </th>
+                        <?php endif?>
+                <?php endforeach?>
+            </tr>
+            </thead>
+            <tbody>
+            <?php echo view('main::coin/list', array('coins' => $coins))?>
+            </tbody>
+        </table>
+		
+	
+		
+    </div>
+	
+	
+	
+</div>
+
+<?php if($type == 'coins'):?>
+    <div class="" style="text-align: center;padding: 20px 0">
+                    <span class="btn-group">
+                        <?php
+                        $previousOffset = ($offset == 0) ? 0 : $offset - $limit;
+                        $nextoffset = $offset + $limit;
+                        ?>
+                        <a href="<?php echo url($type)?>?limit=<?php echo $limit?>&order=<?php echo $order?>&order_type=<?php echo $orderType?>&offset=<?php echo $previousOffset?>" class="btn btn-secondary ajax-link" <?php echo ($offset== 0) ? 'disabled' : null?>><?php _lang('previous')?></a>
+                        <a href="<?php echo url($type)?>?limit=<?php echo $limit?>&order=<?php echo $order?>&order_type=<?php echo $orderType?>&offset=<?php echo $nextoffset?>" class="btn btn-secondary ajax-link"><?php _lang('next')?></a>
+                    </span>
+    </div>
+<?php endif?>

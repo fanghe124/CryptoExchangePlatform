@@ -1,0 +1,80 @@
+
+<?php $columns = my_table_columns(); foreach($coins as $coin):?>
+    <tr data-no-flash="true" data-price="<?php echo format_coin_price($coin['price'],false,false)?>" class=" coin-detail-container <?php echo $coin['symbol']?>-detail-container" id="" data-symbol="<?php echo $coin['symbol']?>">
+        <td>
+            <a onclick="return add_watchlist('<?php echo $coin['symbol']?>', false, this)" href="" class="<?php echo (is_in_watchlist($coin['symbol'])) ? 'starred' : null?>"><i class="icons icon-star"></i></a>
+        </td>
+        <td>
+            <div class="info"><?php echo get_coin_rank($coin['symbol'])?></div>
+        </td>
+
+
+        <td class="clearfix">
+
+
+            <div class="info">
+                <img class="coin-list-logo" style="width: 25px;height: 25px;display: inline-block;margin-right: 10px" src="<?php echo get_coin_logo($coin)?>"/>
+                <div class="coin-name" style=" display: inline-block;">
+                    <a class="ajax-link" href="<?php echo url('coin/'.strtolower($coin['symbol']))?>">
+                        <span style=""><?php echo $coin['name']?></span> <span style="color: grey">[<?php echo $coin['symbol']?>]</span>
+                    </a>
+                </div>
+            </div>
+        </td>
+
+
+        <td class="clearfix">
+
+           <div class="info priceinfocolor" style="position: relative;width:100px">
+               <?php echo getCurrencySymbol()?>
+               <span class="price" ><?php echo format_coin_price($coin['price'],false)?></span>
+           </div>
+        </td>
+        <td class="clearfix hide-mobile">
+
+            <div class="info" style="position: relative">
+                <?php echo getCurrencySymbol()?>
+                <span><?php echo number_format($coin['market_cap'])?></span>
+            </div>
+        </td>
+		
+		
+
+        <td class="clearfix hide-mobile">
+
+            <div class="info">
+                <?php echo number_format($coin['supply'])?> <?php echo $coin['symbol']?>
+            </div>
+        </td>
+		
+		<td class="clearfix hide-mobile">
+		
+		<div class="info" style="position: relative">
+                <?php echo getCurrencySymbol()?>
+                <span><?php echo number_format($coin['volume'])?></span>
+            </div>
+
+
+        </td>
+
+
+        
+
+        <td class="clearfix hide-mobile">
+
+            <div class="info">
+<span class="change <?php echo (($coin['change_24h'] > 0)) ? 'change-up' : 'change-down'?>">
+                <i class=" <?php echo (($coin['change_24h'] > 0)) ? 'icons icon-arrow-up-circle' : 'icons icon-arrow-up-circle'?>"></i>
+    <?php echo $coin['change_24h']?>%</span>
+            </div>
+
+            <span class="sparkline-charts" data-width="130px" values="<?php echo get_coin_line_data($coin['symbol'])?>"></span>
+        </td>
+
+
+
+
+
+
+    </tr>
+<?php endforeach?>

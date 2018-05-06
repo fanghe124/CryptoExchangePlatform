@@ -1,0 +1,40 @@
+<script>
+    var baseUrl = '<?php echo url()?>';
+    var isloggedin = <?php echo (is_loggedIn()) ? 1 : 0?>;
+    window.lang = {
+        ok : '<?php _lang("ok")?>',
+        yes: '<?php _lang('yes')?>',
+        cancel : '<?php _lang('cancel')?>',
+        are_you_sure : '<?php _lang('are_you_sure')?>',
+        buy : '<?php _lang('buy')?>',
+        sell : '<?php _lang('sell')?>',
+        unknown : '<?php _lang('unknown')?>',
+    };
+
+    var decimalPoint = <?php echo config('decimal-point', 3)?>;
+    var decimalSep = '<?php echo config('decimal-separator', '.')?>';
+    var thousandSep = '<?php echo config('thousand-separator', ',')?>';
+    var dateFormat = '<?php echo config('date-format', 'd-m-Y')?>';
+    var base_currency_symbol = '<?php echo getCurrencySymbol()?>';
+    var base_currency = '<?php echo (is_fiat_currency_coin()) ? getCurrency() : config('base_currency','USD')?>';
+    var base_currency_rate = <?php  $currency = getCurrencyDetail(); echo (!$currency['rate']) ? 1 : $currency['rate']?>;
+    var isFiatCurrencyCoin = <?php echo (is_fiat_currency_coin()) ? 1 : 0?>;
+    var publishableKey = '<?php echo config('stripe-public-key')?>';
+</script>
+
+<?php echo $beforeContent?>
+<script src="<?php echo url('public/assets/js/plugin.js')?>?v=1.0"></script>
+<script src="<?php echo url('public/assets/js/amstock/amcharts.js')?>?v=1.2"></script>
+<script src="<?php echo url('public/assets/js/amstock/serial.js')?>?v=1.2"></script>
+<script src="<?php echo url('public/assets/js/amstock/amstock.js')?>?v=1.2"></script>
+
+<script src="<?php echo url('public/assets/js/amstock/plugins/export/export.min.js')?>"></script>
+<script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+<?php if(config('enable-recaptcha', 0)):?>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<?php endif?>
+<script src="<?php echo url("public/styles/".get_theme()."/js/script.js")?>?v=<?php echo time()?>"></script>
+<?php echo $afterContent?>
+
+</body>
+</html>

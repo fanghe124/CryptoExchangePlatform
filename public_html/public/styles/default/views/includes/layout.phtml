@@ -1,0 +1,502 @@
+
+<?php if($_SERVER['REQUEST_URI'] == '/latestnews') { 
+					
+					app()->activeMenu = 'tools';
+					
+					}  ?>
+
+
+<div class="load-bar">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
+<div class="loader-container">
+    <div class="css-loader"></div>
+</div>
+
+<div class="clearfix">
+   
+    <div class=" right-pane">
+	
+	
+	
+	<nav class="" id="header">
+    
+    <div class="bottom" id="header-bottom" style="
+    min-height: 54px;
+    height:  auto;
+">
+    <div class="container clearfix" style="position: relative">
+        <div class=" clearfix nav" style="position: relative;top: 20px;padding-bottom: 28px;">
+		
+		<div class="side-bottom-content"  style="
+    display: inline-block;
+">
+
+            <input <?php echo (is_light_off()) ? 'checked' : null?> onchange="return change_lighting(this)" class="toggle-one" data-size="mini" data-style="ios" name="" value="1" type="checkbox"   data-on="<i></i>" data-off="<i></i>" data-onstyle="primary" data-offstyle="secondary" >
+        <span class="">
+                            <?php if(is_light_off()):?>
+                                <?php _lang('light-mode')?>
+                            <?php else:?>
+                                <?php _lang('night-mode')?>
+                            <?php endif?>
+                        </span>
+        </div>
+
+
+     
+     </div>
+	 
+	 <div class="right topmarketstatsclass" >
+                <?php $details = get_coin_stats()?>
+                <ul class="nav top-nav changetopnav" style="width:  auto;">
+                        <li class="top-statistics" style="
+">
+                            <div class="title">
+                                <?php _lang('cryptocurrencies')?>                            </div>
+                            <div class="value" style="
+    text-align: center;
+">
+                                <?php echo $details['total_coins']?>                            </div>
+                        </li>
+                        <li class="top-statistics">
+                            <div class="title">
+                                <?php _lang('total-market-cap')?>                            </div>
+                            <div class="value" style="
+    text-align: center;
+
+">
+                                <?php echo getCurrencySymbol().number_format($details['total_market_cap']);?>                            </div>
+                        </li>
+                        <li class="top-statistics">
+                            <div class="title">
+                                <?php _lang('total-volume-24h')?>                            </div>
+                            <div class="value" style="
+    text-align: center;
+">
+                               <?php echo getCurrencySymbol().number_format($details['total_volume']); ?>                            </div>
+                        </li>
+                        <li class="top-statistics">
+                            <div class="title">
+                               <?php _lang('btc-dominance')?>                            </div>
+                            <div class="value" style="
+    text-align: center;
+">
+                               <?php echo $details['bitcoin']?>%
+                            </div>
+                        </li>
+                        <li class="top-statistics">
+                            <div class="title">
+                                <?php _lang('market')?>                            </div>
+                            <div class="value" style="
+    text-align: center;
+">
+                                <?php echo $details['market']?>                           </div>
+                        </li>
+
+
+                    </ul>
+            </div>
+       
+    </div>    </div>
+
+    
+    </nav>
+	
+	
+	
+    <nav class="" id="header">
+    <div class="trick-hide-nav show-mobile"></div>
+    <div class="bottom" id="header-bottom">
+        <div class="container clearfix" style="position: relative">
+
+            <ul class=" clearfix nav" id="header-left-nav">
+			
+	
+                <li class="nav-item dropdown">
+                    <a  class="circle-nav btn btn-sm   dropdown-toggle" data-toggle="dropdown" href="#">
+                        <?php $detail = getCurrencyDetail()?>
+                        <?php echo getCurrency()?>
+                    </a>
+                    <div class="dropdown-menu currency-switch-dropdown " aria-labelledby="dropdownMenuButton">
+                        <?php foreach(getAllCurrencies() as $currency):?>
+                            <a  style="    text-align: center;" class="dropdown-item" href="<?php echo url('currency/switch?code='.$currency['code'])?>">
+                                <?php echo $currency['code']?>
+                            </a>
+                        <?php endforeach?>
+
+                    </div>
+                </li>
+                <li class=" nav-item dropdown">
+                    <a style="position: relative;" href="" class=" circle-nav  btn btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <img src="<?php echo url('public/assets/images/flags/'.Translation::getInstance()->lang().'.png')?>"/>
+
+                    </a>
+                    <ul class="dropdown-menu ">
+                        <?php foreach(get_languages_list() as $key => $name):?>
+                            <li><a class="dropdown-item" href="<?php echo url('set/language?id='.$key)?>"><img src="<?php echo url('public/assets/images/flags/'.$key.'.png')?>"/> <?php echo $name?></a></li>
+                        <?php endforeach?>
+                    </ul>
+                </li>
+                <li class="top-search nav-item dropdown">
+                    <form action="" method="post">
+                        <input onkeyup="do_search(this)" placeholder="<?php echo _lang('search-placeholder')?>" type="text" name="search"/>
+                        <i class="icons icon-magnifier"></i>
+                    </form>
+
+                    <div class="dropdown-menu dropdown-menu-left" id="search-dropdown">
+                        <a href="" class="dropdown-item"></a>
+                    </div>
+                </li>
+
+            </ul>
+
+            <div class="right">
+                <ul class="clearfix nav show-mobile">
+                    <li class="nav-item">
+                        <a href="" class="mobile-menu-toggle"><i class="icons icon-menu"></i></a>
+                    </li>
+                </ul>
+                <ul class=" clearfix nav" id="header-nav">
+                    <a href="" class="close show-mobile" onclick="return hide_mobile_menu()"><i class="icons icon-close"></i></a>
+                    <?php if(config('market-menu', 1)):?>
+                        <li id="market-nav" class="nav-item dropdown <?php  if($_SERVER['REQUEST_URI'] == '/latestnews') {   } else { echo (app()->activeMenu == 'market') ? 'active':null; } ?>">
+                            <a data-toggle="dropdown" class="nav-link dropdown-toggle" href="<?php echo url('')?>">
+                                <i class="icons icon-chart"></i>
+                                <span><?php _lang('coins')?></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-left more-menu-list">
+
+                                <a class="dropdown-item ajax-link" href="<?php echo url('trending')?>" >
+                                    <?php _lang('trending-coins')?>
+                                </a>
+								
+                                <a class="dropdown-item ajax-link" href="<?php echo url('')?>" >
+                                    <?php _lang('all-coins')?>
+                                </a>
+
+                                <a class="dropdown-item ajax-link" href="<?php echo url('gainers')?>" >
+                                    <?php _lang('top-gainers')?>
+                                </a>
+                                <a class="dropdown-item ajax-link" href="<?php echo url('losers')?>" >
+                                    <?php _lang('top-losers')?>
+                                </a>
+
+                            </div>
+                        </li>
+                    <?php endif?>
+					
+					
+					
+					
+					
+					
+					
+					
+
+                    <?php if(config('watchlist-menu', 1)):?>
+                        <li id="watchlist-nav" class="nav-item <?php echo (app()->activeMenu == 'watchlist') ? 'active':null?>">
+                           <?php if(is_loggedin()):?>
+                               <a class="nav-link ajax-link" href="<?php echo url('watchlist')?>">
+                                   <i class="icons icon-briefcase"></i>
+                                   <span><?php _lang('watchlist')?></span>
+                               </a>
+                            <?php else:?>
+                               <a class="nav-link" href="" onclick="return need_login()">
+                                   <i class="icons icon-briefcase"></i>
+                                   <span><?php _lang('watchlist')?></span>
+                               </a>
+                            <?php endif?>
+                        </li>
+                    <?php endif?>
+
+                    <?php if(config('alerts-menu', 1)):?>
+                        <li id="alerts-nav" class="nav-item <?php echo (app()->activeMenu == 'alerts') ? 'active':null?>">
+                           <?php if(is_loggedin()):?>
+                               <a class="nav-link ajax-link" href="<?php echo url('alerts')?>">
+                                   <i class="icons icon-briefcase"></i>
+                                   <span><?php _lang('alerts')?></span>
+                               </a>
+                            <?php else:?>
+                               <a class="nav-link " onclick="return need_login()" href="<?php echo url('alerts')?>">
+                                   <i class="icons icon-briefcase"></i>
+                                   <span><?php _lang('alerts')?></span>
+                               </a>
+                            <?php endif?>
+                        </li>
+                    <?php endif?>
+                    <li id="portfolio-nav" class="nav-item <?php echo (app()->activeMenu == 'portfolio') ? 'active':null?>">
+                       <?php if(is_loggedin()):?>
+                           <a class="nav-link ajax-link" href="<?php echo url('portfolio')?>">
+                               <i class="icons icon-cup"></i>
+                               <span><?php _lang('portfolio')?></span>
+                           </a>
+                        <?php else:?>
+                           <a class="nav-link " onclick="return need_login()"  href="<?php echo url('portfolio')?>">
+                               <i class="icons icon-cup"></i>
+                               <span><?php _lang('portfolio')?></span>
+                           </a>
+                        <?php endif?>
+                    </li>
+
+                    <li id="-nav" class="nav-item  dropdown <?php echo (app()->activeMenu == 'tools') ? 'active':null?>">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" >
+                            <i class="icons icon-calendar"></i>
+                            <span><?php _lang('tools')?></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right more-menu-list">
+                            <?php echo runHook('tools.menu.before')?>
+                            <?php if(is_loggedin()):?>
+                                <a class="dropdown-item ajax-link" href="<?php echo url('roi')?>" >
+                                    <?php _lang('roi-calculator')?>
+                                </a>
+                            <?php else:?>
+                                <a class="dropdown-item "  onclick="return need_login()" href="<?php echo url('roi')?>" >
+                                    <?php _lang('roi-calculator')?>
+                                </a>
+                            <?php endif?>
+                            <a class="dropdown-item ajax-link" href="<?php echo url('website-widgets')?>" >
+                                <?php _lang('website-widgets')?>
+                            </a>
+                            <a class="dropdown-item ajax-link" href="<?php echo url('calculator')?>" >
+                                <?php _lang('cryptocurrency-converter')?>
+                            </a>
+							<a class="dropdown-item ajax-link" href="<?php echo url('latestnews')?>" >
+                                Latest News
+                            </a>
+							
+                            <?php echo runHook('tools.menu.after')?>
+                        </div>
+                    </li>
+
+
+
+                    <?php foreach(get_main_menu_list() as $menu):?>
+                        <li id="-nav" class="nav-item ">
+                            <a class="nav-link <?php echo ($menu['ajaxify']) ? 'ajax-link' : null?>" href="<?php echo $menu['link']?>" >
+                                <i class="<?php echo $menu['icon']?>"></i>
+                                <span><?php _lang($menu['title'])?></span>
+                            </a>
+                        </li>
+                    <?php endforeach?>
+
+
+
+                    <?php $moreMenus = get_more_menu_list()?>
+                    <?php if($moreMenus):?>
+                        <li id="-nav" class="nav-item  dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" >
+                                <i class="icons icon-options-vertical"></i>
+                                <span><?php _lang('more')?></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right  more-menu-list">
+                                <?php foreach($moreMenus as $menu):?>
+                                    <a class="dropdown-item <?php echo ($menu['ajaxify']) ? 'ajax-link' : null?>" href="<?php echo $menu['link']?>" >
+                                        <?php _lang($menu['title'])?>
+                                    </a>
+                                <?php endforeach?>
+                            </div>
+                        </li>
+                    <?php endif?>
+
+                    <?php if(is_loggedin()):?>
+                        <li class="nav-item user-account-menu dropdown" style="position: relative;top: 5px">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="<?php echo get_avatar(75)?>"/> </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+
+                                <?php if(config('enable-subscription', false)):?>
+                                    <a class="dropdown-item ajax-link" href="<?php echo url('settings')?>"><?php _lang('subscriptions')?></a>
+                                <?php endif?>
+                                <a class="dropdown-item ajax-link" href="<?php echo url('settings')?>"><?php _lang('profile')?></a>
+                                <?php if(is_admin()):?>
+                                    <a class="dropdown-item ajax-link" href="<?php echo url('admincp')?>"><?php _lang('administrator')?></a>
+                                <?php endif?>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="<?php echo url('logout')?>"><?php _lang('logout')?></a>
+                            </div>
+                        </li>
+
+                    <?php endif?>
+
+					 <?php if(!is_loggedin()):?>
+					<li id="signin-nav" class="nav-item <?php if($_SERVER['REQUEST_URI'] == '/signin') { 
+					
+						echo 'active';
+					
+					}  ?>">
+                                                          <a class="nav-link ajax-link" href="<?php echo url('signin')?>">
+                                   <i class="icons icon-briefcase"></i>
+                                   <span>Login</span>
+                               </a>
+                                                    </li>
+													<li id="signup-nav" class="nav-item <?php if($_SERVER['REQUEST_URI'] == '/register') { 
+					
+						echo 'active';
+					
+					}  ?>">
+                                                          <a class="nav-link ajax-link" href="<?php echo url('register')?>">
+                                   <i class="icons icon-briefcase"></i>
+                                   <span>Register</span>
+                               </a>
+                                                    </li>
+					<?php endif?>
+
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="top" style="display: none">
+        <div class="container">
+            <div class="left">
+
+                <ul class="nav">
+
+                </ul>
+            </div>
+            <div class="right">
+                <ul class="nav">
+                    <li class="nav-item">
+
+                    </li>
+
+
+                    <?php if(is_loggedin()):?>
+                        <li class="nav-item user-account-menu dropdown" style="position: relative;top: 5px">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><img src="<?php echo get_avatar(75)?>"/> </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item ajax-link" href="<?php echo url('settings')?>"><?php _lang('profile')?></a>
+                                <?php if(is_admin()):?>
+                                    <a class="dropdown-item ajax-link" href="<?php echo url('admincp')?>"><?php _lang('administrator')?></a>
+                                <?php endif?>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="<?php echo url('logout')?>"><?php _lang('logout')?></a>
+                            </div>
+                        </li>
+
+                    <?php else:?>
+                        <li class="nav-item">
+                            <div class="btn-group">
+                                <?php if(!is_loggedin() and config('enable-signup', true)):?>
+                                    <a data-toggle="modal" data-target="#signupModal" style="" href="" class="btn btn-primary btn-sm"><?php _lang('signup')?> /</a>
+                                <?php endif?>
+                                <a data-target="#loginModal" class="btn btn-sm btn-primary " style="padding-left: 2px" data-toggle="modal" href="#"><?php _lang('login')?></a>
+                            </div>
+                        </li>
+
+
+                    <?php endif?>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    </nav>
+
+
+
+    <div id="main-content">
+        <div id="trade"></div>
+        <div style="background: white;" id="page-content">
+            <?php echo $content?>
+        </div>
+		<?php if(config('top_ads', false)):?>
+<div class="container" style="
+    margin-bottom: 50px;    margin-top: 10px;
+">
+            <div class="" style="padding: 10px 0; ">
+                <?php echo config('top_ads', '')?>
+            </div>
+			</div>
+        <?php endif?>
+    </div>
+
+
+    <div class="modal fade" id="donateModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><?php _lang('donate-coins')?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <ul>
+                        <li><?php _lang('donate-bitcoin')?> : <strong><?php echo config('bitcoin_info')?></strong> </li>
+                        <li><?php _lang('donate-ethereum')?> : <strong><?php echo config('ethereum_info')?></strong> </li>
+                        <li><?php _lang('donate-litecoin')?> : <strong><?php echo config('litecoin_info')?></strong> </li>
+                    </ul>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button  class="btn btn-primary btn-sm" data-dismiss="modal"><?php _lang('close')?></button>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="needLoginModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><?php _lang('personlized-features')?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <?php _lang('personalized-feature-note')?>
+                </div>
+
+                <div class="modal-footer">
+
+                    <?php _lang('ready')?>?   <a href="<?php echo url()?>"><?php _lang('signin-or-signup')?></a>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <div class="social-links">
+                <a href="https://www.facebook.com/<?php echo config('facebook-handle')?>" class="btn btn-sm "><i class="icons icon-social-facebook"></i></a>
+                <a href="https://www.twitter.com/<?php echo config('twitter-handle')?>" class="btn btn-sm "><i class="icons icon-social-twitter"></i></a>
+                <a href="https://plus.google.com/<?php echo config('google-handle')?>" class="btn btn-sm "><i class="icons icon-social-google"></i></a>
+            </div>
+
+            <?php if(config('bitcoin_info') or config('ethereum_info') or config('litecoin_info')):?>
+                <a class="btn btn-primary btn-sm" style="color: white !important;"  data-toggle="modal" data-target="#donateModal" href=""><?php  _lang('donate')?></a>
+            <?php endif?>
+            <ul>
+                <li><a href="<?php echo url('about')?>"><?php _lang('about-us')?></a></li>
+                <li><a href="<?php echo url('privacy')?>"><?php  _lang('privacy-policy')?></a></li>
+                <li><a href="<?php echo url('terms')?>"><?php  _lang('terms-and-condition')?></a></li>
+                <li><a href="<?php echo url('sitemap')?>"><?php  _lang('sitemap')?></a></li>
+				<li><a target="_blank" href="https://goo.gl/forms/HPQNPyIX4585rqEG3">Advertising</a></li>
+
+
+            </ul>
+
+            <div class="copyright-info">
+                <?php _lang('copyright')?> © <?php echo date('Y')?> <?php echo config('site-title')?>. <?php _lang('all-right-reserved')?>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

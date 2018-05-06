@@ -1,0 +1,106 @@
+<div class="container">
+    <h5 class="" style="text-align: center;margin: 15px 0"><?php _lang('pricing')?></h5>
+</div>
+
+<div class="pane">
+    <?php $currency = find_currency(config('subscription-currency', 'USD'))?>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <?php if(config('package-1-price')):?>
+            <div class="col-md-4">
+                <div class="pane bg-white pricing-plan">
+                    <h4><?php echo config('package-1-name')?></h4>
+                    <div class="plan-price"><?php echo $currency['symbol']?><?php echo config('package-1-price')?> / <?php _lang('month')?></div>
+
+                    <h6><?php _lang('features')?></h6>
+                    <ul>
+                        <?php foreach(explode(',', config('package-1-features')) as $feature):?>
+                            <li><?php _lang($feature)?></li>
+                        <?php endforeach?>
+                    </ul>
+
+                    <a href="" onclick="return open_pay(1, <?php echo config('package-1-price')?>)" class="btn btn-primary btn-sm"><?php _lang('select-plan')?></a>
+                </div>
+            </div>
+        <?php endif?>
+        <?php if(config('package-2-price')):?>
+            <div class="col-md-4">
+                <div class="pane bg-white pricing-plan">
+                    <h4><?php echo config('package-2-name')?></h4>
+                    <div class="plan-price"><?php echo $currency['symbol']?><?php echo config('package-2-price')?> / <?php _lang('month')?></div>
+
+                    <h6><?php _lang('features')?></h6>
+                    <ul>
+                        <?php foreach(explode(',', config('package-2-features')) as $feature):?>
+                            <li><?php _lang($feature)?></li>
+                        <?php endforeach?>
+                    </ul>
+
+                    <a onclick="return open_pay(2, <?php echo config('package-2-price')?>)" href="" class="btn btn-primary btn-sm"><?php _lang('select-plan')?></a>
+                </div>
+            </div>
+        <?php endif?>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="payModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <script src="https://js.stripe.com/v3/"></script>
+               <form onsubmit="return submit_stripe(this)" action="" method="post">
+                   <input type="hidden" id="pay-amount-input"/>
+                   <input type="hidden" id="pay-plan-input"/>
+                   <div class="pane" style="margin: 20px;">
+                       <div class="row">
+                           <div class="col-md-8">
+                               <label><?php _lang('duration')?></label>
+                               <select onchange="validate_pay_amount(this)" class="form-control pay-type">
+                                   <option value="1">1 <?php _lang('month')?></option>
+                                   <option value="2">12 <?php _lang('month')?>(s)</option>
+                               </select>
+                           </div>
+                           <div class="col-md-4">
+                               <label><?php _lang('amount')?></label>
+                               <div>
+                                   <?php echo $currency['symbol']?><span class="pay-price"></span>
+                               </div>
+                           </div>
+                       </div>
+
+                       <div class="stripe-form-content" style="margin-top: 20px;display: none">
+                           <div style="" class="bg-white pane" >
+                               <label for="card-element">
+                                   Credit or debit card
+                               </label>
+                               <div id="card-element">
+                                   <!-- A Stripe Element will be inserted here. -->
+                               </div>
+
+                               <!-- Used to display form errors. -->
+                               <div id="card-errors" role="alert"></div>
+                           </div>
+
+                           <button style="submit" class="btn btn-sm btn-primary"><?php _lang('pay-now')?></button>
+                       </div>
+                   </div>
+
+                   <div class="row" id="pay-methods">
+                       <div class="col-md-2"></div>
+                       <div class="col-md-4">
+                           <a onclick="return init_paypal()" href="" style="border: solid 1px #EBEBEB;border-radius: 4px;display: block;padding: 5px 10px"><img style="width: 120px" src="<?php echo url('public/assets/images/paypal.jpg')?>"/> </a>
+                       </div>
+                       <div class="col-md-4">
+                           <a onclick="return init_stripe()" href="" style="border: solid 1px #EBEBEB;border-radius: 4px;display: block;padding: 5px 10px"><img style="width: 120px" src="<?php echo url('public/assets/images/stripe.png')?>"/> </a>
+                       </div>
+                       <div class="col-md-2"></div>
+                   </div>
+               </form>
+            </div>
+        </div>
+
+    </div>
+</div>

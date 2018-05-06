@@ -1,0 +1,86 @@
+<?php $currency = getCurrencyDetail()?>
+<div class="box">
+
+</div>
+
+<div class="box">
+    <ul class="nav nav-tabs profile-nav-tabs">
+        <li class="nav-item">
+            <a data-toggle="tab" href="#info" role="tab" class="nav-link active" ><?php _lang('details')?></a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#indicators" role="tab" class="nav-link" ><?php _lang('key-indicators')?></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#history" role="tab"><?php _lang('historical-price')?></a>
+        </li>
+    </ul>
+
+    <div class="tab-content" style="padding: 0  20px;display: block">
+        <div class="tab-pane active" id="info" role="tabpanel">
+            <h6 style="margin-top:20px;display: block"><?php _lang('description')?></h6>
+            <p>
+                <?php echo $coin['description']?>
+            </p>
+
+        </div>
+        <div class="tab-pane" id="indicators" role="tabpanel">
+            <table style="margin-top: 20px;width: 100%" class="table table-condensed">
+                <tbody>
+                    <tr>
+                        <td><strong><?php _lang('mkt-cap')?></strong></td>
+                        <td><sup><?php echo getCurrencySymbol()?></sup>
+                            <?php echo formatNumber($coin['market_cap'])?></td>
+                        <td><strong><?php _lang('volume')?> 24H</strong></td>
+                        <td><?php echo formatNumber($coin['volume'])?> <?php echo $coin['symbol']?></td>
+                    </tr>
+
+                    <tr>
+                        <td><strong><?php _lang('market-share')?></strong></td>
+                        <td>
+                            <?php echo get_coin_market_share($coin)?>%</td>
+                        <td><strong><?php _lang('total-supply')?> </strong></td>
+                        <td><?php echo formatNumber($coin['total_supply'])?> <?php echo $coin['symbol']?></td>
+                    </tr>
+
+                    <tr>
+                        <td><strong><?php _lang('proof-type')?></strong></td>
+                        <td>
+                            <?php echo $coin['proof_type']?></td>
+                        <td><strong><?php _lang('open')?> </strong></td>
+                        <td>
+                            <sup><?php echo getCurrencySymbol()?></sup>
+                            <?php echo formatNumber($coin['open'])?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong><?php _lang('low')?></strong></td>
+                        <td>
+                            <sup><?php echo getCurrencySymbol()?></sup>
+                            <?php echo formatNumber($coin['low'])?>
+                        </td>
+                        <td><strong><?php _lang('high')?> </strong></td>
+                        <td>
+                            <sup><?php echo getCurrencySymbol()?></sup>
+                            <?php echo formatNumber($coin['high'])?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="history" role="tabpanel">
+            <table  class="table table-stripped historical-data-table">
+                <thead>
+                <tr>
+                    <th><?php _lang('date')?></th>
+                    <th class="right-align"><?php _lang('price')?></th>
+                    <th class="right-align"><?php _lang('volume')?></th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,157 @@
+<div class="clearfix">
+    <div class="float-left">
+        <h5><?php _lang('currency-manager')?>
+            <button data-toggle="modal"data-target="#addCurrencyModal" class="btn btn-primary btn-sm"><?php _lang('add-currency')?></button>
+        </h5>
+    </div>
+    <div class="float-right">
+        <form action="" method="get">
+            <input name="term" value="<?php echo input('term')?>" type="text" class="form-control-sm" placeholder="<?php _lang('search-currency')?>"/>
+            <button class="btn btn-sm btn-primary"><i class="icons icon-magnifier"></i></button>
+        </form>
+
+    </div>
+</div>
+<div class="modal fade" id="addCurrencyModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><?php _lang('add-Currency')?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form action=""  enctype="multipart/form-data" method="post">
+                <input type="hidden" name="add_currency" value="1"/>
+               <div class="modal-body">
+                   <div class="form-group">
+                       <label><?php _lang('name')?></label>
+                       <input required type="text" class="form-control" name="name"/>
+                   </div>
+
+                   <div class="form-group">
+                       <label><?php _lang('symbol')?></label>
+                       <input required type="text" class="form-control" name="symbol"/>
+                   </div>
+
+                   <div class="form-group">
+                       <label><?php _lang('code')?></label>
+                       <input required type="text" class="form-control" name="code"/>
+                   </div>
+
+                   <div class="form-group">
+                       <label><?php _lang('country-code')?></label>
+                       <input required type="text" class="form-control" name="country_code"/>
+                   </div>
+                   <div class="form-group">
+                       <label><?php _lang('rate')?></label>
+                       <input required type="text" class="form-control" name="rate"/>
+                   </div>
+
+               </div>
+
+                <div class="modal-footer">
+
+                    <button  class="btn btn-primary btn-sm"><?php _lang('save')?></button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+
+        <th> <?php _lang('name')?> </th>
+        <th><?php _lang('symbol')?></th>
+        <th><?php _lang('code')?></th>
+        <th><?php _lang('country-code')?></th>
+        <th><?php _lang('rate')?> (USD)</th>
+
+        <th><a ><?php _lang('action')?></a></th>
+
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach($currencies as $Currency):?>
+            <tr>
+                <td><?php echo $Currency['name']?></td>
+                <td><?php echo $Currency['symbol']?></td>
+                <td><?php echo $Currency['code']?></td>
+                <td><?php echo $Currency['country_code']?></td>
+                <td><?php echo $Currency['rate']?> </td>
+                <td>
+                    <div class="btn-group">
+                        <a href="" data-toggle="modal" data-target="#<?php echo $Currency['id']?>editCurrencyModal" class="btn btn-sm btn-secondary"><i class="icons icon-pencil"></i></a>
+                        <a href="<?php echo url('admincp/currencies/?action=delete&id='.$Currency['id'])?>" class="btn btn-sm btn-secondary confirm-link"><i class="icons icon-close"></i></a>
+                    </div>
+                    <div class="modal fade" id="<?php echo $Currency['id']?>editCurrencyModal">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"><?php _lang('edit-currency')?></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <form action=""  enctype="multipart/form-data" method="post">
+                                    <input type="hidden" name="edit_currency" value="<?php echo $Currency['id']?>"/>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label><?php _lang('name')?></label>
+                                            <input required type="text" value="<?php echo $Currency['name']?>" class="form-control" name="name"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?php _lang('symbol')?></label>
+                                            <input value="<?php echo $Currency['symbol']?>" required type="text" class="form-control" name="symbol"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?php _lang('code')?></label>
+                                            <input value="<?php echo $Currency['code']?>" required type="text" class="form-control" name="code"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?php _lang('country-code')?></label>
+                                            <input value="<?php echo $Currency['country_code']?>" required type="text" class="form-control" name="country_code"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?php _lang('rate')?></label>
+                                            <input value="<?php echo $Currency['rate']?>" required type="text" class="form-control" name="rate"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+
+                                        <button  class="btn btn-primary btn-sm"><?php _lang('save')?></button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach?>
+    </tbody>
+</table>
+
+<div class="" style="text-align: center">
+            <span class="btn-group">
+                <?php
+                $offset = input('offset', 0);
+                $previousOffset = ($offset == 0) ? 0 : $offset - 50;
+                $nextoffset = $offset + 50;
+                ?>
+                <a href="<?php echo url('admincp/currencies')?>?offset=<?php echo $previousOffset?>&term=<?php echo input('term')?>" class="btn btn-sm btn-secondary ajax-link" <?php echo ($offset== 0) ? 'disabled' : null?>><?php _lang('previous')?></a>
+                <a href="<?php echo url('admincp/currencies')?>?offset=<?php echo $nextoffset?>&term=<?php echo input('term')?>" class="btn btn-sm btn-secondary ajax-link"><?php _lang('next')?></a>
+            </span>
+</div>

@@ -1,0 +1,385 @@
+
+<?php if($_SERVER['REQUEST_URI'] == '/latestnews') { 
+					
+					app()->activeMenu = 'tools';
+					
+					}  ?>
+
+
+<div class="container">
+   
+	
+	<?php if(config('top_ads', false)):?>
+                <div class="" style="padding: 30px 0">
+                    <?php echo config('top_ads', '')?>
+                </div>
+            <?php endif?>
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="pane">
+            
+                <ul class="nav nav-tabs" id="home-tab">
+                    <li class="nav-item">
+                        <a class="nav-link  <?php if($_SERVER['REQUEST_URI'] == '/trending') { 
+					
+					echo 'active';
+					
+					}  ?>" href="#trending" data-toggle="tab">
+                            <i class="icons icon-diamond"></i>
+                            <span><?php _lang('trending-coins')?></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  <?php if($_SERVER['REQUEST_URI'] == '/latestnews') { 
+					
+					echo 'active';
+					
+					}  ?>" href="#news" data-toggle="tab">
+                            <i class="icons icon-graph"></i>
+                            <span><?php _lang('news')?></span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane  news-container <?php if($_SERVER['REQUEST_URI'] == '/latestnews') { 
+					
+					echo 'active';
+					
+					}  ?> " id="news" role="tabpanel">
+
+                    </div>
+                    <div class="tab-pane trending-coins-pane <?php if($_SERVER['REQUEST_URI'] == '/trending') { 
+					
+					echo 'active';
+					} ?> " id="trending" role="tabpanel">
+					
+                    <div class="row">
+                    <div class="col-sm-4">
+                        <?php $currency = getCurrencyDetail()?>
+                        <div style="overflow: auto;overflow-x:hidden;max-height: 500px">
+                            <?php foreach(get_highest_coins() as $coin):?>
+                                <a
+                                    data-currency="<?php echo $currency['symbol']?>"
+                                    data-symbol="<?php echo $coin['symbol']?>"
+                                    data-logo="<?php echo url('public/assets/images'.$coin['logo'])?>" class="each-top-coin" href="">
+                                    <img style="width: 25px;height: 25px;display: inline-block" src="<?php echo url('public/assets/images'.$coin['logo'])?>"/>
+                                    <div style="display: inline-block">
+                                        <strong><?php echo $coin['name']?></strong> (<span style="color: grey"><?php echo $coin['symbol']?></span>)
+                                        <br/>
+                                        <div style="font-size: 10px">
+                                            <?php _lang('price')?>: <?php echo format_coin_price($coin['price'])?>
+
+                                            <?php _lang('change')?>: <?php echo $coin['change_24h']?>%
+                                        </div>
+                                    </div>
+                                </a>
+                            <?php endforeach?>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="home-graph-container">
+                            <div id="home-coin-chart" class="coin-chart">
+                                <script>
+                  function formatLegendValue(graphDataItem, valueText) {
+                    return '<?php echo $currency['symbol']?>' + valueText;
+                  }
+                   function formatDecimal(r) {
+                        return r;
+                    }
+                     var chart;
+                    function init_coin_chart(symbol,currency, logo) {
+                       cH = (new Date).getUTCHours();
+                    pM = (new Date).getUTCMinutes();
+                    SYMBOL = symbol;
+                        var primaryColor = '<?php echo config('primary-color', '#0275D8')?>';
+                        var secondaryColor = '#DD9A57';
+
+                      var chartOptions = {
+                        type: 'stock',
+                        categoryAxesSettings: {
+                          minPeriod: 'mm',
+                          color: secondaryColor,
+                          gridColor: primaryColor, // vertical grid color
+                          gridAlpha: 0.1,
+                          gridThickness: 1,
+                          groupToPeriods: ["15mm", "30mm", "DD", "WW", "MM"],
+                          equalSpacing: !0 // skip time gaps
+                        },
+
+                        dataSets: [{
+                            dataLoader: {
+                                url: baseUrl + 'load/history?symbol=' + SYMBOL,
+                                format: "json",
+                                postProcess: function(e, a, t) {
+                                    var response = e;
+                                    return e;
+                                }
+                            },
+                          title: symbol,
+                          fieldMappings: [{
+                            fromField: 'value',
+                            toField: 'value'
+                          },
+                           {
+                            fromField: 'volume',
+                            toField: 'volume'
+                          }],
+                          categoryField: 'date'
+                        }],
+
+                        panelsSettings: {
+                          usePrefixes: true,
+                          creditsPosition: 'bottom-left'
+                        },
+
+                        panels: [{
+                          showCategoryAxis: true,
+                          title: 'Price',
+                          percentHeight: 70,
+                          precision: 2,
+                          drawingIconsEnabled: true,
+                          eraseAll: true,
+                          eraseAll:!0,
+                          stockGraphs: [ {
+                            id: 'g1',
+                            type: "smoothedLine",
+                            valueField: 'value',
+                            "proCandlesticks": true,
+                            lineColor: primaryColor,
+                            fillAlphas: 0.15,
+                            lineThickness: 2,
+                            comparable: true,
+                            compareField: 'value',
+                            balloonText: '[[title]]: <b>' + currency + '[[value]]</b>',
+                            compareGraphBalloonText: '[[title]]: <b>' + currency + '[[value]]</b>',
+                            useDataSetColors: false
+                          }],
+                          stockLegend: {
+                            periodValueTextComparing: '[[percents.value.close]]%',
+                            periodValueTextRegular: '[[value.close]]',
+                            color: secondaryColor,
+                            valueFunction: formatLegendValue,
+                            numberFormatter: {precision:-1, decimalSeparator:'.', thousandsSeparator:','}
+                          },
+                          valueAxes: [{
+                            position: 'right',
+                            color: secondaryColor, // color of values
+                            gridColor: primaryColor, //horizontal grid line color
+                            gridAlpha: 0.1,
+                            gridThickness: 1
+                          }]
+                        }, {
+                          title: '<?php _lang('volume')?>',
+                          percentHeight: 30,
+                          precision: 0,
+                          stockGraphs: [ {
+                            valueField: 'volume',
+                            type: 'column',
+                            showBalloon: false,
+                            periodValue: "Sum",
+                            lineColor: primaryColor,
+                            fillAlphas: 0.3,
+                            useDataSetColors: false
+                          } ],
+                          stockLegend: {
+                            periodValueTextRegular: '[[value.close]]',
+                            valueFunction: formatLegendValue,
+                            numberFormatter: {precision:-1, decimalSeparator:'.', thousandsSeparator:','}
+                          },
+                          valueAxes: [{
+                            position: 'right',
+                            gridColor: primaryColor, //horizontal grid line color
+                            gridAlpha: 0.1,
+                            gridThickness: 1
+                          }]
+                        }],
+
+                        chartScrollbarSettings: {
+                          graph: 'g1',
+                          graphFillColor: primaryColor,
+                          graphFillAlpha: 0.4,
+                          selectedGraphFillColor: primaryColor,
+                          selectedGraphFillAlpha: 1,
+                          enabled:1
+                        },
+
+                        chartCursorSettings: {
+                          valueBalloonsEnabled: true,
+                          graphBulletSize: 1,
+                          valueLineBalloonEnabled: true,
+                          valueLineEnabled: true,
+                          valueLineAlpha: 1,
+                          categoryBalloonColor: primaryColor,
+                          categoryBalloonAlpha: 0.8,
+                          cursorColor: primaryColor,
+                          cursorAlpha: 0.8
+                        },
+
+                        periodSelector: {
+                          position: 'top',
+                          periodsText: '',
+                          inputFieldsEnabled: false, //disable dates input
+                          periods: [
+                          {
+                            period: 'mm',
+                            count: cH > 0 ? 60 * (cH - 1) + pM : 60,
+                            label: '1D'
+                          },{
+                            period: 'DD',
+                            count: 7,
+                            label: '1W',
+                            selected: true
+                          },{
+                            period: 'MM',
+                            count: 1,
+                            label: '1M'
+                          },{
+                            period: 'MM',
+                            count: 3,
+                            label: '3M'
+                          },{
+                            period: 'MM',
+                            count: 6,
+                            label: '6M'
+                          },{
+                            period: 'YYYY',
+                            count: 1,
+                            label: '1Y'
+                          }, {
+                            period: 'MAX',
+                            label: '<?php _lang('all')?>'
+                          }]
+                        },
+
+                        dataSetSelector: {
+                          position: '' // leave empty to hide the native dataSet selection control
+                        },
+
+                        comparedDataSets: [],
+
+                        export: {
+                          enabled: true
+                        },
+
+                        listeners: [{
+                          event: 'init',
+                          method: function () {
+
+                            // add chart background image when the chart is initialized
+                            $('#coin-chart-container').find('.amcharts-stock-panel-div-stockPanel0 .amcharts-main-div')
+                              .prepend('<div style="background: url('+logo+') no-repeat center center; position: absolute; width: 100%; height: 100%; opacity: 0.18;background-color:none"></div>');
+                          }
+                        },{
+                            event : 'rendered',
+                            method : function() {
+                                $('#coin-chart-preloader').fadeOut();
+                            }
+                        }]
+                      };
+
+                        $('#coin-chart-preloader').fadeIn();
+                        chart = AmCharts.makeChart('coin-chart-container', chartOptions);
+
+                        //return false;
+
+
+                    }
+
+
+                </script>
+                                <div id="coin-chart-preloader" style="position: absolute;height: 100%;width: 100%;display:none">
+                                    <div class="css-loader" style="margin: 20% auto"></div>
+                                </div>
+                                <div id="coin-chart-container"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="pane">
+                <?php if(is_loggedin()):?>
+                    <div class="access-actions">
+                        <div class="icon">
+                            <i class="icons icon-plus"></i>
+                        </div>
+
+                        <p>
+                            <a href="<?php echo url('portfolio')?>"><strong><?php _lang('portfolio')?></strong></a> <?php _lang('portfolio-welcome-note')?>
+                        </p>
+
+                        <p>
+                            <a href="<?php echo url('alert')?>"><strong><?php _lang('alerts')?></strong></a> <?php _lang('alerts-welcome-note')?>
+                        </p>
+
+                        <p>
+                            <a href="<?php echo url('watchlist')?>"><strong><?php _lang('watchlist')?></strong></a> <?php _lang('watchlist-welcome-note')?>
+                        </p>
+                    </div>
+                <?php else:?>
+                    <div class="signup-form-container access-form">
+                        <h5><?php _lang('create-a-account')?></h5>
+                        <p><?php _lang('create-a-account-note')?></p>
+                        <form action="" method="post" id="signup-form">
+                            <div class="form-group">
+                                <input name="email" type="email" class="form-control" placeholder="Email address"/>
+                            </div>
+
+                            <div class="form-group">
+                                <input name="password" type="password" class="form-control" placeholder="Password"/>
+                            </div>
+
+                            <div class="form-group">
+                                <?php if(config('enable-recaptcha', 0)):?>
+                                    <div class="g-recaptcha" data-sitekey="<?php echo config('captcha-site-key')?>" style="padding: 3px "></div>
+                                <?php endif?>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-sm btn-block">Signup Now</button>
+
+                            <a  onclick="return change_access_form('login')" href="" style="margin: 10px 0;display: block;text-align: center">Already a member sign in here?</a>
+                        </form>
+                    </div>
+
+                    <div class="login-form-container access-form" style="display: none">
+                        <h5><?php _lang('login')?></h5>
+                        <p><?php _lang('login-note')?></p>
+                        <form action="" method="post" id="login-form">
+                            <div class="form-group">
+                                <input name="username" type="text" class="form-control" placeholder="Email address"/>
+                            </div>
+
+                            <div class="form-group">
+                                <input name="password" type="password" class="form-control" placeholder="Password"/>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-sm btn-block">Login</button>
+
+                            <a href="" onclick="return change_access_form('signup')" style="margin: 10px 0;display: block;text-align: center">Not a member signup?</a>
+                        </form>
+                    </div>
+                <?php endif?>
+            </div>
+            <?php if(config('side_ads', false)):?>
+                <div class="" style="padding: 30px 0">
+                    <?php echo config('side_ads', '')?>
+                </div>
+            <?php endif?>
+        </div>
+    </div>
+	
+	<?php if(config('top_ads', false)):?>
+                <div class="" style="padding: 30px 0">
+                    <?php echo config('top_ads', '')?>
+                </div>
+            <?php endif?>
+</div>

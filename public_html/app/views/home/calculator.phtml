@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8" style="font-size: 0.85rem;
+    line-height: 1.25;
+    background: #fff;
+    color: #4b4b4b;
+    margin-bottom: 1.5rem;
+    border-radius: .375rem;
+    -webkit-box-shadow: 0 2px 12px 0 #dfe3eb;
+    box-shadow: 0 2px 12px 0 #dfe3eb;
+    font-weight: 400;
+    margin-top: 0px;
+    border: none;
+    padding: 30px;
+    padding-top: 40px;">
+        <div class="currency-converter"  style="    margin-bottom: 30px;
+    font-size: 16px;text-align:center;">
+
+            <div class="row">
+                <div class="col-sm-5" style="font-size: 20px;">
+                    <input onkeyup="do_calculator()" placeholder="Enter Amount in Crypto" type="text" class="form-control converter-from-left" style="    font-size: 14px !important;" />
+                    <span class=" answer-right answer"></span>
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-5">
+                    <select onchange="do_calculator()" class="form-control select2 from" style="width: 100% !important;">
+                        <?php foreach(get_all_coins() as $coin):?>
+                            <option <?php echo ($coin['symbol'] == 'BTC') ? 'selected' : null?> value="<?php echo $coin['symbol']?>"><?php echo $coin['symbol']?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+                <div class="col-sm-5" style="padding: 20px 0">
+
+                </div>
+                <div class="col-sm-2">
+                    <a id="calculator-switch" href="" onclick="return change_calculator(this)" data-type="left" class="btn btn-secondary btn-sm" style="padding: 5px;margin: auto;display: inline-block"><i class="icons icon-arrow-down-circle"></i></a>
+                </div>
+                <div class="col-sm-5" style="text-align: left">
+                </div>
+
+                <div class="col-sm-5" style="font-size: 20px;" >
+                    <input onkeyup="do_calculator()" placeholder="Enter Amount in Fiat" style="    font-size: 14px !important;display: none" type="text" class="form-control converter-from-right" />
+                    <span class="answer-left answer"></span>
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-5" style="text-align: center">
+                    <select onchange="do_calculator()" class="form-control select2 to" style="width: 100% !important;">
+                        <?php foreach(getAllCurrencies() as $currency):?>
+                            <option <?php echo ($currency['code'] == getCurrency()) ? 'selected' : null?> value="<?php echo $currency['code']?>"><?php echo $currency['code']?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

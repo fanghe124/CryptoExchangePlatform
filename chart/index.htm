@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Highcharts Example</title>
+
+		<style type="text/css">
+
+		</style>
+	</head>
+	<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+	<script type="text/javascript">
+			var btcprice = [];
+			var usdprice = [];
+			var date = []
+			
+			$.getJSON("btcprice.json", function(data){
+					data = JSON.parse(data)
+					
+					for(i=0; i <= data.length - 1; i++){
+						time = new Date(data[i]["time"] * 1000),
+						close = data[i]["close"],
+						btcprice.push(close)
+						date.push(time)
+					}
+				});
+				
+			$.getJSON("usdprice.json", function(data){
+					data = JSON.parse(data)
+					
+					for(i=0; i <= data.length - 1; i++){
+						time = new Date(data[i]["time"] * 1000),
+						close = data[i]["close"],
+						usdprice.push(close)
+					}
+				});
+			
+		<!-- function x(){ -->
+		var chart = Highcharts.chart('container', {
+			chart: {
+				zoomType: 'x'
+			},
+			title: {
+				text: 'Average Monthly Weather Data for Tokyo'
+			},
+			subtitle: {
+				text: 'Source: WorldClimate.com'
+			},
+			
+			xAxis: {
+				categories:date,
+                type: 'datetime'
+            },
+			yAxis: [{ // Primary yAxis
+				labels: {
+					format: '{value}°C',
+					style: {
+						color: Highcharts.getOptions().colors[2]
+					}
+				},
+				title: {
+					text: 'Temperature',
+					style: {
+						color: Highcharts.getOptions().colors[2]
+					}
+				},
+				opposite: true
+
+			}, { // Secondary yAxis
+				gridLineWidth: 0,
+				title: {
+					text: 'Rainfall',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				},
+				labels: {
+					format: '{value} mm',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				}
+
+			}, { // Tertiary yAxis
+				gridLineWidth: 0,
+				title: {
+					text: 'Sea-Level Pressure',
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				labels: {
+					format: '{value} mb',
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				opposite: true
+			}],
+			tooltip: {
+				shared: true,
+				crosshairs:true
+				
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'left',
+				x: 80,
+				verticalAlign: 'top',
+				y: 55,
+				floating: true,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+			},
+			
+			
+			
+			<!-- series: [{ -->
+				<!-- name: 'Rainfall', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 0, -->
+				<!-- data: btcprice, -->
+				<!-- marker: { -->
+					<!-- enabled: false -->
+				<!-- }, -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' mm' -->
+				<!-- } -->
+
+			<!-- }, -->
+			
+			<!-- {  -->
+				<!-- name: 'Sea-Level Pressure', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 1, -->
+				<!-- data: usdprice, -->
+				<!-- marker: { -->
+					<!-- enabled: false -->
+				<!-- }, -->
+				<!-- dashStyle: 'shortdot', -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' mb' -->
+				<!-- } -->
+
+			<!-- }] -->
+			<!-- [ -->
+			
+			<!-- { -->
+				<!-- name: 'Sea-Level Pressure', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 2, -->
+				<!-- data: [1016, 1016, 1015.9, 1015.5, 1012.3, 1009.5, 1009.6, 1010.2, 1013.1, 1016.9, 1018.2, 1016.7], -->
+				<!-- marker: { -->
+					<!-- enabled: false -->
+				<!-- }, -->
+				<!-- dashStyle: 'shortdot', -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' mb' -->
+				<!-- } -->
+
+			<!-- },  -->
+			
+			<!-- { -->
+				<!-- name: 'Temperature', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 0, -->
+				<!-- data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6], -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' °C' -->
+				<!-- } -->
+			<!-- } -->
+			
+			<!-- ] -->
+
+
+		});
+		
+		<!-- }; -->
+		
+
+			series1 = {
+				name: 'Rainfall',
+				type: 'spline',
+				yAxis: 0,
+				data: btcprice,
+				marker: {
+					enabled: false
+				},
+				tooltip: {
+					valueSuffix: ' mm'
+				}
+
+			};
+			
+			series2 = { 
+				name: 'Sea-Level Pressure',
+				type: 'spline',
+				yAxis: 1,
+				data: usdprice,
+				marker: {
+					enabled: false
+				},
+				<!-- dashStyle: 'shortdot', -->
+				tooltip: {
+					valueSuffix: ' mb'
+				}
+
+			};
+			
+			<!-- series3 =  -->
+			
+			<!-- [ -->
+			<!-- { -->
+				<!-- name: 'Sea-Level Pressure', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 2, -->
+				<!-- data: [1016, 1016, 1015.9, 1015.5, 1012.3, 1009.5, 1009.6, 1010.2, 1013.1, 1016.9, 1018.2, 1016.7], -->
+				<!-- marker: { -->
+					<!-- enabled: false -->
+				<!-- }, -->
+				<!-- dashStyle: 'shortdot', -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' mb' -->
+				<!-- } -->
+
+			<!-- }, -->
+			
+			<!-- { -->
+				<!-- name: 'Temperature', -->
+				<!-- type: 'spline', -->
+				<!-- yAxis: 0, -->
+				<!-- data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6], -->
+				<!-- tooltip: { -->
+					<!-- valueSuffix: ' °C' -->
+				<!-- } -->
+			<!-- }] -->
+			
+		
+					
+			function myfunc(){
+					<!-- alert("test") -->
+					<!-- console.log(series1) -->
+					chart.addSeries(series1)
+					<!-- chart.addSeries(series2) -->
+				};
+			setTimeout(myfunc, 2000);
+			<!-- $(window).ready(function(){ -->
+				<!-- setTimeout(ttes, 30000) -->
+			<!-- }) -->
+			
+	
+		
+	</script>
+	</body>
+</html>

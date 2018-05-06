@@ -1,0 +1,5 @@
+<?php foreach($coins as $coin):?>
+    <a href="<?php echo coin_link($coin)?>" class="dropdown-item ajax-link">
+       <img style="width: 15px;" src="<?php echo get_coin_logo($coin)?>"/> <?php echo $coin['name']?> <span>(<?php echo $coin['symbol']?>)</span>
+    </a>
+<?php endforeach?>

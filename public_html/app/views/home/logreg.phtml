@@ -1,0 +1,120 @@
+
+<?php if($_SERVER['REQUEST_URI'] == '/signin') { 
+					
+					app()->activeMenu = 'signin';
+					
+					} else if($_SERVER['REQUEST_URI'] == '/register') { 
+					
+					app()->activeMenu = 'register';
+					
+					}   ?>
+
+
+<div class="container">
+
+
+
+   
+	
+	<?php if(config('top_ads', false)):?>
+                <div class="" style="padding: 30px 0">
+                    <?php echo config('top_ads', '')?>
+                </div>
+            <?php endif?>
+
+    <div class="row">
+      
+        <div style="width:100%;">
+            <div class="pane">
+               
+                   
+                
+                    <div style=" <?php if($_SERVER['REQUEST_URI'] == '/signin') {  
+
+	
+		echo 'display: none;';
+		
+	}
+	?>
+    padding: 20px;
+" class="signup-form-container access-form">
+                        <h5  style="
+    text-align:  center;
+    
+"><?php _lang('create-a-account')?></h5>
+                        <p style="
+    text-align: center;
+    margin-bottom: 40px;
+"><?php _lang('create-a-account-note')?></p>
+                        <form action="" method="post" id="signup-form" style="
+    width: 75%;
+    margin:  0 auto;
+">
+                            <div class="form-group">
+                                <input name="email" type="email" class="form-control" placeholder="Email address"/>
+                            </div>
+
+                            <div class="form-group">
+                                <input name="password" type="password" class="form-control" placeholder="Password"/>
+                            </div>
+
+                            <div class="form-group">
+                                <?php if(config('enable-recaptcha', 0)):?>
+                                    <div class="g-recaptcha" data-sitekey="<?php echo config('captcha-site-key')?>" style="padding: 3px "></div>
+                                <?php endif?>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-sm btn-block">Signup Now</button>
+
+                            <a  onclick="return change_access_form('login')" href="" style="margin: 10px 0;display: block;text-align: center">Already a member sign in here?</a>
+                        </form>
+                    </div>
+
+                    <div class="login-form-container access-form"style="
+    padding: 20px;
+	
+	<?php if($_SERVER['REQUEST_URI'] != '/signin') {  
+
+	
+		echo 'display: none;';
+		
+	}
+	?>
+">
+                        <h5  style="
+    text-align:  center;
+   
+"><?php _lang('login')?></h5>
+                        <p style="
+    text-align: center;
+    margin-bottom: 40px;
+"><?php _lang('login-note')?></p>
+                        <form action="" method="post" id="login-form" style="
+    width: 75%;
+    margin:  0 auto;
+">
+                            <div class="form-group">
+                                <input name="username" type="text" class="form-control" placeholder="Email address"/>
+                            </div>
+
+                            <div class="form-group">
+                                <input name="password" type="password" class="form-control" placeholder="Password"/>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-sm btn-block">Login</button>
+
+                            <a href="" onclick="return change_access_form('signup')" style="margin: 10px 0;display: block;text-align: center">Not a member signup?</a>
+                        </form>
+                    </div>
+                
+            </div>
+       
+        </div>
+    </div>
+	
+	<?php if(config('top_ads', false)):?>
+                <div class="" style="padding: 30px 0">
+                    <?php echo config('top_ads', '')?>
+                </div>
+            <?php endif?>
+</div>

@@ -1,0 +1,431 @@
+<div id="coin-profile" data-no-flash="true"
+     data-price="<?php echo format_coin_price($coin['price'],false,false)?>" class="coin-detail-container <?php echo $coin['symbol']?>-detail-container"  data-symbol="<?php echo $coin['symbol']?>">
+    <?php $currency = getCurrencyDetail()?>
+
+    <div class="coin-header">
+        <div class="container">
+            <div class="clearfix">
+                <div class="float-left clearfix">
+                   
+                    <div class="coin-icon" style="
+    margin: 4px;
+">
+                        <img style="width: 38px;height: 38px;display: inline-block;margin-right: 10px;" src="<?php echo url('public/assets/images'.$coin['logo'])?>"/>
+                    </div>
+                    <div class="coin-name">
+                        <h5 style="
+    font-size:  22px;
+    margin-bottom: 0px;
+"><?php echo $coin['name']?></h5>
+                        <div style="
+    font-size: 16px;
+">
+         
+                            <span style="color: grey"><?php echo $coin['symbol']?></span>
+                        </div>
+                    </div>
+                    <div class="coin-price">
+                      
+							
+							
+							<div>
+                         <span class="price-info">
+                            <?php echo getCurrencySymbol()?>
+                            <span class="price"><?php echo format_coin_price($coin['price'],false)?></span>
+                        </span>
+
+                        <span class="change <?php echo (($coin['change_24h'] > 0)) ? 'change-up' : 'change-down'?>">
+                            ( <i class=" <?php echo (($coin['change_24h'] > 0)) ? 'icons icon-arrow-up-circle' : 'icons icon-arrow-up-circle'?>"></i>
+                            <?php echo $coin['change_24h']?>% )</span>
+                         </div>
+							
+							
+							
+							
+							<div>
+                        <span class=""><span class="" style="
+    font-size: 13px;
+">0.00102656 BTC</span>
+                        </span>
+
+                        <span class=""><i class="icons icon-arrow-up-circle"></i> 0.93%</span>
+        
+    </div>
+							
+
+                    </div>
+                </div>
+                <div class="float-right">
+                    <a href="<?php echo config('exchange-url')?>" class="btn btn-sm btn-primary" style="margin-top: 10px"><?php _lang('buy-sell')?> <?php echo $coin['symbol']?></a>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	
+	
+	<div class="container"><div class="col-sm-12 col-sm-push-4" style="
+    display: inline-block;
+    margin-top: 6px;
+    padding-left: 0px;
+    padding-right: 0px;
+    display: flex;
+">
+<div class="coin-summary-item col-xs-6  col-md-3" style="
+    font-size: 0.85rem;
+    background: #fff;
+    color: #4b4b4b;
+    margin-bottom: 1.5rem;
+    border-radius: .375rem;
+    -webkit-box-shadow: 0 2px 12px 0 #dfe3eb;
+    box-shadow: 0 2px 12px 0 #dfe3eb;
+    font-weight: 400;
+    margin-top: 20px;
+    border: none;
+    display:  inline-block;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 10px;
+">
+<div class="coin-summary-item-header">
+<h3 class="details-text-medium" style="
+    padding: 10px;
+    /* border-top: 1px solid #DDD; */
+    /* border-bottom: 1px solid #DDD; */
+    border-left: 0;
+    border-right: 0;
+    margin-top: 0;
+    font-weight: bold;
+    white-space: nowrap;
+    margin-bottom: 0;
+    text-align:  center;
+    font-size: .8rem;
+">Market Cap</h3>
+</div>
+<div class="coin-summary-item-detail details-text-medium" style="
+    font-size: 1em;
+    text-align: center;
+    padding: 10px;
+">
+<span data-currency-market-cap="" data-usd="1.1769903866e+11">
+<span data-currency-value=""><?php echo getCurrencySymbol()?><?php echo number_format($coin['market_cap'],0,".",","); ?></span>
+<span data-currency-code="">USD</span>
+</span><br>
+<span class="text-gray">
+<span data-format-market-cap="" data-format-value="16971425.0"><?php echo number_format(($coin['market_cap']/$coin['price']),0); ?></span>
+BTC
+<br>
+</span>
+</div>
+</div>
+<div class="coin-summary-item col-xs-6  col-md-3" style="
+    font-size: 0.85rem;
+    background: #fff;
+    color: #4b4b4b;
+    margin-bottom: 1.5rem;
+    border-radius: .375rem;
+    -webkit-box-shadow: 0 2px 12px 0 #dfe3eb;
+    box-shadow: 0 2px 12px 0 #dfe3eb;
+    font-weight: 400;
+    margin-top: 20px;
+    border: none;
+    display:  inline-block;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 10px;
+">
+<div class="coin-summary-item-header">
+<h3 class="details-text-medium" style="
+    padding: 10px;
+    /* border-top: 1px solid #DDD; */
+    /* border-bottom: 1px solid #DDD; */
+    border-left: 0;
+    border-right: 0;
+    margin-top: 0;
+    font-weight: bold;
+    white-space: nowrap;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: .8rem;
+">Volume (24h)</h3>
+</div>
+<div class="coin-summary-item-detail details-text-medium" style="
+    font-size: 1em;
+    text-align: center;
+    padding: 10px;
+">
+<span data-currency-volume="" data-usd="4358520000.0">
+<span data-currency-value=""><?php echo getCurrencySymbol()?><?php echo number_format($coin['volume'],0,".",","); ?></span>
+<span data-currency-code="">USD</span>
+</span><br>
+<span class="text-gray">
+<span data-format-volume-crypto="" data-format-value="628429.0"><?php echo number_format(($coin['volume']/$coin['price']),0); ?></span>
+BTC
+</span>
+</div>
+</div>
+
+<div class="coin-summary-item col-xs-6  col-md-3" style="
+    font-size: 0.85rem;
+    background: #fff;
+    color: #4b4b4b;
+    margin-bottom: 1.5rem;
+    border-radius: .375rem;
+    -webkit-box-shadow: 0 2px 12px 0 #dfe3eb;
+    box-shadow: 0 2px 12px 0 #dfe3eb;
+    font-weight: 400;
+    margin-top: 20px;
+    border: none;
+    display: inline-block;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 10px;
+">
+ <div class="coin-summary-item-header">
+<h3 class="details-text-medium" style="
+    padding: 10px;
+    /* border-top: 1px solid #DDD; */
+    /* border-bottom: 1px solid #DDD; */
+    border-left: 0;
+    border-right: 0;
+    margin-top: 0;
+    font-weight: bold;
+    white-space: nowrap;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: .8rem;
+">Circulating Supply</h3>
+</div>
+<div class="coin-summary-item-detail details-text-medium" style="
+    font-size: 1em;
+    text-align: center;
+    padding: 10px;
+">
+<span data-format-supply="" data-format-value="16971425.0"><?php echo number_format($coin['supply'],0,".",","); ?></span> <?php echo $coin['symbol']?>
+</div>
+</div>
+<div class="coin-summary-item col-xs-6  col-md-3 " style="
+    font-size: 0.85rem;
+    background: #fff;
+    color: #4b4b4b;
+    margin-bottom: 1.5rem;
+    border-radius: .375rem;
+    -webkit-box-shadow: 0 2px 12px 0 #dfe3eb;
+    box-shadow: 0 2px 12px 0 #dfe3eb;
+    font-weight: 400;
+    margin-top: 20px;
+    border: none;
+    display: inline-block;
+    padding-left: 0px;
+    padding-right: 0px;
+">
+<div class="coin-summary-item-header">
+<h3 class="details-text-medium" style="
+    padding: 10px;
+    /* border-top: 1px solid #DDD; */
+    /* border-bottom: 1px solid #DDD; */
+    border-left: 0;
+    border-right: 0;
+    margin-top: 0;
+    font-weight: bold;
+    white-space: nowrap;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: .8rem;
+">Max Supply</h3>
+</div>
+<div class="coin-summary-item-detail details-text-medium" style="
+    font-size: 1em;
+    text-align: center;
+    padding: 10px;
+">
+<span data-format-supply="" data-format-value="21000000"><?php echo number_format($coin['total_supply'],0,".",","); ?></span> <?php echo $coin['symbol']?>
+</div>
+</div>
+<div class="clearfix visible-xs"></div>
+</div></div>
+  
+
+    <div class="container" style="
+    margin-top: 20px;
+">
+        <ul class="nav nav-tabs profile-nav-tabs nav-tabs-res" style="    margin-bottom: 35px;">
+		 <li class="nav-item">
+                <a data-toggle="tab" href="#graph" role="tab" class="nav-link active" ><?php _lang('information')?></a>
+            </li>
+            <li class="nav-item">
+                <a data-toggle="tab" href="#info" role="tab" class="nav-link" ><?php _lang('information')?></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#history" role="tab"><?php _lang('historical-price')?></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#trading" role="tab"><?php _lang('live-trading')?></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#market" role="tab"><?php _lang('market')?></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#widget" role="tab"><?php _lang('widget')?></a>
+            </li>
+        </ul>
+
+        <div class="tab-content" >
+		
+		
+		
+		 <div class="tab-pane active" id="graph" role="tabpanel">
+		 <div class="container">
+            <?php echo view('main::coin/chart', array('coin' => $coin))?>
+
+          
+        </div>
+		
+		 </div>
+		
+		
+		
+            <div class="tab-pane " id="info" role="tabpanel">
+                <h6 style="margin-top:20px;display: block"><?php _lang('description')?></h6>
+                <p>
+                    <?php echo $coin['description']?>
+                </p>
+
+
+                <table style="margin-top: 20px;width: 100%" class="table table-condensed">
+                    <tbody>
+                    <tr>
+                        <td><strong><?php _lang('mkt-cap')?></strong></td>
+                        <td><sup><?php echo getCurrencySymbol()?></sup>
+                            <?php echo formatNumber($coin['market_cap'])?></td>
+                        <td><strong><?php _lang('volume')?> 24H</strong></td>
+                        <td><?php echo formatNumber($coin['volume'])?> <?php echo $coin['symbol']?></td>
+                    </tr>
+
+                    <tr>
+                        <td><strong><?php _lang('market-share')?></strong></td>
+                        <td>
+                            <?php echo get_coin_market_share($coin)?>%</td>
+                        <td><strong><?php _lang('total-supply')?> </strong></td>
+                        <td><?php echo formatNumber($coin['total_supply'])?> <?php echo $coin['symbol']?></td>
+                    </tr>
+
+                    <tr>
+                        <td><strong><?php _lang('proof-type')?></strong></td>
+                        <td>
+                            <?php echo $coin['proof_type']?></td>
+
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane" id="history" role="tabpanel">
+                <table  class="table table-stripped historical-data-table">
+                    <thead>
+                    <tr>
+                        <th><?php _lang('date')?></th>
+                        <th class="right-align"><?php _lang('price')?></th>
+                        <th class="right-align"><?php _lang('volume')?></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane " id="trading" role="tabpanel">
+                <table id="tradeDataTableList" data-coin="<?php echo $coin['symbol']?>"  class="table table-hover  table-coin">
+                    <thead>
+                    <tr>
+                        <th><?php _lang('market')?></th>
+                        <th><?php _lang('type')?></th>
+                        <th><?php _lang('price')?></th>
+                        <th><?php _lang('quantity')?></th>
+                        <th><?php _lang('total')?></th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="trades">
+
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="tab-pane" id="widget" role="tabpanel">
+                <?php echo view('main::coin/widget-builder', array('coin' => $coin['symbol']))?>
+            </div>
+            <div class="tab-pane" id="market" role="tabpanel">
+
+                <table style="width: 100% !important;" id="exchangeDataTableList" data-coin="<?php echo $coin['symbol']?>"  class="table table-hover  table-coin">
+                    <thead>
+                    <tr>
+                        <th><?php _lang('market')?></th>
+                        <th><?php _lang('price')?></th>
+                        <th><?php _lang('open-24h')?></th>
+                        <th><?php _lang('range-24h')?></th>
+                        <th><?php _lang('volume-24h')?></th>
+                        <th><?php _lang('change-24h')?></th>
+                        <th><?php _lang('action')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach(get_available_exchanges() as $exchange => $link):?>
+                        <tr class="coin-exchange-container" id="<?php echo $exchange?>-detail-container" data-name="<?php echo $exchange?>" data-symbol="<?php echo $coin?>">
+                            <td>
+                                <span class="" style="font-weight: bolder"><?php echo $exchange?></span>
+                            </td>
+                            <td>
+                                <div class="info" style="position: relative">
+                                    <?php echo getCurrencySymbol()?>
+                                    <span class="exchange-price"></span>
+                                </div>
+                            </td>
+                            <td>
+
+                                <div class="info" style="position: relative">
+                                    <?php echo getCurrencySymbol()?>
+                                    <span class="exchange-open"></span>
+                                </div>
+                            </td>
+                            <td>
+
+                                <div class="info" style="position: relative">
+                                    <div style="position: relative">
+
+                                        L :<?php echo getCurrencySymbol()?> <span class="exchange-low"></span>
+                                    </div>
+                                    <div style="position: relative">
+
+                                        H : <?php echo getCurrencySymbol()?> <span class="exchange-high"></span>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td>
+
+                                <div class="info" style="position: relative">
+                                    <?php echo getCurrencySymbol()?>
+                                    <span class="exchange-volume"></span>
+                                </div>
+                            </td>
+
+                            <td>
+
+                                <div class="info" style="position: relative">
+                                    <span class="exchange-change"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="#" <?php echo (!$link) ? 'disabled' : null?> class="btn btn-sm  <?php echo (!$link) ? 'disabled btn-secondary' : 'btn-yellow'?>" style="padding: 5px;border-radius:4px;" onclick="return window.open('<?php echo $link?>')"><i class="icons icon-link"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
