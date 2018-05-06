@@ -10,9 +10,12 @@ from threading  import Thread
 ## 6000 requests per hour per IP for the historical paths
 
 ##get all coins 2400+
+
 p0 = Portable(0)
-keys = p0.keys()
-p0.close()
+p1 = Portable(1)
+p2 = Portable(2)
+p3 = Portable(3)
+
 
 def get_coins():
     url = "https://www.cryptocompare.com/api/data/coinlist/"
@@ -20,14 +23,25 @@ def get_coins():
     return r
 
 
-def ticker(coin):
-    url = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=USD'.format(coin)
-    try:
-        r = req.get(url).json()["RAW"]
-    except Exception as e:
-        print("Error : " + str(e))
-        r = ""
-    return r
+
+
+def ticker():
+    coins = {}
+    for i in range(0,17):
+        url = "https://api.coinmarketcap.com/v2/ticker/?start={}01&limit=100".format(i)
+        r = req.get(url).json()["data"]
+        coins.update(r)
+        print("Page : " + str(i)) 
+    
+    return coins
+
+def save_ticker():
+    coins = ticker()
+    print("Total Coins : " + str(len(coins)))
+    for i in coins.keys():
+        p3.set(coins[i]['symbol'], coins[i])
+        print("Save for coin : " + str(coins[i]['name']))
+
 
 def history_USD(coin):
     url = 'https://min-api.cryptocompare.com/data/histoday?fsym={}&tsym=USD&limit=2000&e=CCCAGG'.format(coin)
@@ -50,36 +64,36 @@ def history_BTC(coin):
 def run_coin():
     print("running coin")
     #0 is for ticker details save to database
-    p0 = Portable(0)
     i = 0
-    for coin in get_coins().keys():
+    g = get_coins()
+    for coin in g.keys():
         print(i)
         print("Get ticker for coin : " + str(coin))
-        p0.set(coin, ticker(coin))
+        p0.set(coin, g[coin])
 ##        t.sleep(0.5)
         i = i + 1
-    p0.close()
+
 
 def run_USD():
     print("running USD price")
-    #1 is for history details save to database 
-    p1 = Portable(1)
+    #1 is for history details save to database
+    keys = p3.keys()
     for coin in keys:
         print("Get history for coin in USD price: " + str(coin))
         p1.set(coin, history_USD(coin))
         t.sleep(2)
-    p1.close()
+
     
 
 def run_BTC():
     print("running BTC price")
-    #2 is for history details save to database 
-    p2 = Portable(2)
+    #2 is for history details save to database
+    keys = p3.keys()
     for coin in keys:
         print("Get history for coin in BTC price: " + str(coin))
         p2.set(coin, history_BTC(coin))
         t.sleep(2)
-    p2.close()
+
 
 
 
@@ -100,10 +114,14 @@ def run():
         t.run()
 
     
-
+def close():
+    p0.close() 
+    p1.close()
+    p2.close()
+    p3.close()
 
 
 
 
 if __name__ == "__main__":
-    r = get_coins()
+    r = run_BTC()
