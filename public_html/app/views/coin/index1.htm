@@ -20,71 +20,96 @@
   crossorigin="anonymous"></script>
 
 
+
+
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 
+
 	<script type="text/javascript">
+
 			coin = window.location.href;
 			c = coin.split('/')[6];
-			<!-- console.log(c) -->
 			var btcprice = [];
 			var usdprice = [];
 			var date = [];
 			var volume = [];
+			var marketcap = [];
 			
-			<!-- $.getJSON("http://localhost/test/public_html/app/views/coin/btcprice.php?coin=" + c, function(data){ -->
-					<!-- data = JSON.parse(data) -->
-					<!-- console.log(data) -->
-					<!-- for(i=0; i <= data.length - 1; i++){ -->
-						<!-- time = new Date(data[i]["time"] * 1000).toString(), -->
-						<!-- x = time.split(" ")[0] + " " + time.split(" ")[1] + " " + time.split(" ")[2] + " " + time.split(" ")[3],  -->
-						<!-- close = data[i]["close"], -->
-						<!-- btcprice.push(close) -->
-						<!-- date.push(x) -->
-						<!-- volume.push(data[i]["volumeto"]) -->
-					<!-- } -->
-				<!-- }); -->
+
 				
-			<!-- $.getJSON("http://localhost/test/public_html/app/views/coin/usdprice.php?coin=" + c, function(data){ -->
-					<!-- data = JSON.parse(data) -->
-					<!-- console.log(data) -->
-					<!-- for(i=0; i <= data.length - 1; i++){ -->
-						<!-- time = new Date(data[i]["time"] * 1000), -->
-						<!-- close = data[i]["close"], -->
-						<!-- usdprice.push(close) -->
-					<!-- } -->
-				<!-- }); -->
-				
-			$.when($.getJSON("http://localhost/test/public_html/app/views/coin/usdprice.php?coin=" + c), $.getJSON("http://localhost/test/public_html/app/views/coin/btcprice.php?coin=" + c)).done(function(r1, r2){
-					data = JSON.parse(r1[0])
+		$.when($.getJSON("http://localhost/test/public_html/app/views/coin/usdprice.php?coin=" + c), $.getJSON("http://localhost/test/public_html/app/views/coin/btcprice.php?coin=" + c), $.getJSON("http://localhost/test/public_html/app/views/coin/marketcap.php?coin=" + c)).done(function(r1, r2, r3){
+			if (r1[0] != "no datas"){
 			
-					for(i=0; i <= data.length - 1; i++){
-						time = new Date(data[i]["time"] * 1000),
-						close = data[i]["close"],
-						usdprice.push(close)
-					}
+				usdData = JSON.parse(r1[0])
+			
+				for(i=0; i <= usdData.length - 1; i++){
+					time = new Date(usdData[i]["time"] * 1000).toString(),
+					x = time.split(" ")[0] + " " + time.split(" ")[1] + " " + time.split(" ")[2] + " " + time.split(" ")[3], 
+					close = usdData[i]["close"],
+					usdprice.push([usdData[i]["time"] * 1000, close]),
+					<!-- date.push(x), -->
+					<!-- date.push(usdData[i]["time"] * 1000), -->
+					volume.push([usdData[i]["time"] * 1000, usdData[i]["volumeto"]])
 					
-					data = JSON.parse(r2[0])
+				}
 				
-					for(i=0; i <= data.length - 1; i++){
-						time = new Date(data[i]["time"] * 1000).toString(),
-						x = time.split(" ")[0] + " " + time.split(" ")[1] + " " + time.split(" ")[2] + " " + time.split(" ")[3], 
-						close = data[i]["close"],
-						btcprice.push(close)
-						date.push(x)
-						volume.push(data[i]["volumeto"])
-					}
-					<!-- console.log(JSON.parse(r1[0])) -->
-					<!-- console.log(r2[0]) -->
-					myfunc()
-			});
+				
+				if(c != 'btc'){
+					btcData = JSON.parse(r2[0])
 			
-		<!-- function x(){ -->
+					for(i=0; i <= usdData.length - 1; i++){
+						
+						close = btcData[i]["close"],
+						btcprice.push([usdData[i]["time"] * 1000, close])
+					}
+				
+				}
+				
+				
+				
+				capData = JSON.parse(r3[0])
+				for(i=0; i <= usdData.length - 1; i++){
+					close = usdData[i]["close"] * capData['circulating_supply'],
+					marketcap.push([usdData[i]["time"] * 1000, close])
+				}
+				
+				myfunc()
+				chart.hideLoading()
+				
+				
+			}else{
+				chart.hideLoading()
+				chart.showLoading("No datas ... Try again later")
+			}
+			
+
+			
+		});
+				
+			
+
 		var chart = Highcharts.chart('container', {
 			chart: {
 				zoomType: 'x',
-				alignTicks: false
+				 alignTicks: false
 			},
+			
+			loading : {
+				style : {
+					background:"#292b2c4a"
+				}
+			},
+			
+			credits : {
+				enabled:false
+			},
+			
+			rangeSelector: {
+				allButtonsEnabled: true,
+				selected: 2
+			},
+			
 			title: {
 				text: c.toUpperCase() + " Chart"
 			},
@@ -95,13 +120,15 @@
 				title: {
 					text: 'Date'
 				},
-				categories:date,
                 type: 'datetime',
+				gapGridLineWidth: 0
 				
             },
 			yAxis: [{ // Primary yAxis
 				labels: {
-					format: '',
+					 formatter: function () {
+						return '$ ' + this.value;
+					},
 					style: {
 						color: Highcharts.getOptions().colors[2]
 					}
@@ -124,7 +151,9 @@
 					}
 				},
 				labels: {
-					format: '',
+					 formatter: function () {
+						return  this.value + ' BTC';
+					},
 					style: {
 						color: Highcharts.getOptions().colors[0]
 					}
@@ -132,28 +161,32 @@
 				height: '65%'
 
 			}, 
-			<!-- { // Tertiary yAxis -->
-				<!-- gridLineWidth: 0, -->
-				<!-- title: { -->
-					<!-- text: 'Marketcap', -->
-					<!-- style: { -->
-						<!-- color: Highcharts.getOptions().colors[1] -->
-					<!-- } -->
-				<!-- }, -->
-				<!-- labels: { -->
-					<!-- format: '', -->
-					<!-- style: { -->
-						<!-- color: Highcharts.getOptions().colors[1] -->
-					<!-- } -->
-				<!-- }, -->
-				<!-- opposite: true -->
-			<!-- } -->
-			 {
+			{ // Tertiary yAxis
+				gridLineWidth: 0,
+				title: {
+					text: 'Market Cap',
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				labels: {
+					 <!-- formatter: function () { -->
+						<!-- return '$ ' + this.value; -->
+					<!-- }, -->
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				opposite: true,
+				height: '65%'
+			},
+			
+			{
 				labels: {
 					align: 'right',
 					x: -3,
 					style: {
-						color: Highcharts.getOptions().colors[2]
+						color: Highcharts.getOptions().colors[5]
 					}
 				},
 				title: {
@@ -184,123 +217,80 @@
 			
 			series: [
 			
-			 
-			<!-- { -->
-				<!-- name: 'BTC', -->
-				<!-- type: 'spline', -->
-				<!-- yAxis: 0, -->
-				<!-- data: btcprice, -->
-				<!-- marker: { -->
-					<!-- enabled: false -->
-				<!-- }, -->
-				<!-- tooltip: { -->
-					<!-- valueSuffix: ' btc' -->
-				<!-- } -->
-
-			<!-- } -->
-			<!-- ,{  -->
-				<!-- name: 'USD', -->
-				<!-- type: 'spline', -->
-				<!-- yAxis: 1, -->
-				<!-- data: usdprice, -->
-				<!-- marker: { -->
-					<!-- enabled: false -->
-				<!-- }, -->
-				<!-- dashStyle: 'shortdot', -->
-				<!-- tooltip: { -->
-					<!-- valueSuffix: ' usd' -->
-				<!-- } -->
-
-			<!-- } -->
-			
 			]
-			<!-- [ -->
 			
-			<!-- { -->
-				<!-- name: 'Sea-Level Pressure', -->
-				<!-- type: 'spline', -->
-				<!-- yAxis: 2, -->
-				<!-- data: [1016, 1016, 1015.9, 1015.5, 1012.3, 1009.5, 1009.6, 1010.2, 1013.1, 1016.9, 1018.2, 1016.7], -->
-				<!-- marker: { -->
-					<!-- enabled: false -->
-				<!-- }, -->
-				<!-- dashStyle: 'shortdot', -->
-				<!-- tooltip: { -->
-					<!-- valueSuffix: ' mb' -->
-				<!-- } -->
-
-			<!-- },  -->
-			
-			<!-- { -->
-				<!-- name: 'Temperature', -->
-				<!-- type: 'spline', -->
-				<!-- yAxis: 0, -->
-				<!-- data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6], -->
-				<!-- tooltip: { -->
-					<!-- valueSuffix: ' °C' -->
-				<!-- } -->
-			<!-- } -->
-			
-			<!-- ] -->
 
 
 		});
 		
-		<!-- }; -->
+
 		
 
 			
 			
-			
+		chart.showLoading("Loading...");	
 		
 					
-			function myfunc(){
-						series1 = {
-						name: 'BTC',
-						type: 'spline',
-						yAxis: 0,
-						data: btcprice,
-						marker: {
-							enabled: false
-						},
-						tooltip: {
-							valueSuffix: ' btc'
-						}
+		function myfunc(){
+			series1 = {
+				name: 'BTC',
+				type: 'spline',
+				yAxis: 0,
+				data: btcprice,
+				marker: {
+					enabled: false
+				},
+				tooltip: {
+					valueSuffix: ' BTC'
+				}
 
-					},
-					
-					series2 = { 
-						name: 'USD',
-						type: 'spline',
-						yAxis: 1,
-						data: usdprice,
-						marker: {
-							enabled: false
-						},
-						tooltip: {
-							valueSuffix: ' usd'
-						}
+			},
+			
+			series2 = { 
+				name: 'USD',
+				type: 'spline',
+				yAxis: 1,
+				data: usdprice,
+				marker: {
+					enabled: false
+				},
+				tooltip: {
+					valueSuffix: ' USD'
+				}
 
-					},
-					
-					series3 ={
-					type: 'column',
-					name: 'Volume',
-					data: volume,
-					yAxis: 2,
-					<!-- dataGrouping: { -->
-						<!-- units: groupingUnits -->
-						<!-- } -->
-					}
-					
-					chart.addSeries(series1)
-					chart.addSeries(series2)
-					chart.addSeries(series3)
-				};
-			<!-- setTimeout(myfunc, 2000) -->
-			<!-- $(window).ready(function(){ -->
-				<!-- setTimeout(myfunc, 30000) -->
-			<!-- }) -->
+			},
+			
+			series3 = { 
+				name: 'Marketcap',
+				type: 'spline',
+				yAxis: 2,
+				data: marketcap,
+				marker: {
+					enabled: false
+				},
+				tooltip: {
+					valueSuffix: ' USD'
+				}
+
+			},
+			
+			series4 ={
+			type: 'column',
+			name: 'Volume',
+			data: volume,
+			yAxis: 3,
+			<!-- dataGrouping: { -->
+				<!-- units: groupingUnits -->
+				<!-- } -->
+			}
+			chart.addSeries(series3)
+			chart.addSeries(series1)
+			chart.addSeries(series2)
+			chart.addSeries(series4)
+		};
+		
+
+		
 			
 	
 		

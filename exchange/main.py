@@ -12,10 +12,8 @@ from threading  import Thread
 ##get all coins 2400+
 
 p0 = Portable(0)
-p1 = Portable(1)
-p2 = Portable(2)
 p3 = Portable(3)
-
+keys = p3.keys()
 
 def get_coins():
     url = "https://www.cryptocompare.com/api/data/coinlist/"
@@ -77,22 +75,22 @@ def run_coin():
 def run_USD():
     print("running USD price")
     #1 is for history details save to database
-    keys = p3.keys()
+    p1 = Portable(1)
     for coin in keys:
         print("Get history for coin in USD price: " + str(coin))
         p1.set(coin, history_USD(coin))
-        t.sleep(2)
+        t.sleep(1)
 
     
 
 def run_BTC():
     print("running BTC price")
     #2 is for history details save to database
-    keys = p3.keys()
+    p2 = Portable(2)
     for coin in keys:
         print("Get history for coin in BTC price: " + str(coin))
         p2.set(coin, history_BTC(coin))
-        t.sleep(2)
+        t.sleep(1)
 
 
 
@@ -109,19 +107,12 @@ def run():
         t.start()
         threads.append(t)
         
-    print("run threading")
+    
     for t in threads:
-        t.run()
+        t.join()
 
     
-def close():
-    p0.close() 
-    p1.close()
-    p2.close()
-    p3.close()
-
-
 
 
 if __name__ == "__main__":
-    r = run_BTC()
+    r = run()
